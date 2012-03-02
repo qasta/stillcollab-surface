@@ -14,13 +14,14 @@
 	</parent>
 
 	<properties>
-		<catalina.home>/home/damien/bin/tomcat</catalina.home>
 		<!-- Qualité de la compilation -->
 		<gwt.draft.compile>true</gwt.draft.compile>
 		<!-- Style de sortie : OBF[USCATED], PRETTY, or DETAILED -->
 		<gwt.compile.style>DETAILED</gwt.compile.style>
-
 		<compile.debug>true</compile.debug>
+		
+		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+    	<beanstalk.versionLabel>${maven.build.timestamp}</beanstalk.versionLabel>
 	</properties>
 
 	<dependencies>
@@ -70,7 +71,7 @@
 			<artifactId>guice</artifactId>
 			<version>${guice.version}</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
@@ -135,6 +136,17 @@
 					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
 					<warSourceExcludes>.gwt-tmp/**</warSourceExcludes>
 					<warSourceExcludes>**/*.nocache.js,**/*.gwt.rpc,**/*.cache.*,**/wysiwyg</warSourceExcludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>br.com.ingenieux</groupId>
+				<artifactId>beanstalk-maven-plugin</artifactId>
+				<version>0.2.6</version>
+				<configuration>
+					<applicationName>surface-sample</applicationName>
+					<s3Bucket>surface-sample</s3Bucket>
+					<s3Key>${project.artifactId}/${project.build.finalName}-${maven.build.timestamp}.war</s3Key>
 				</configuration>
 			</plugin>
 		</plugins>
