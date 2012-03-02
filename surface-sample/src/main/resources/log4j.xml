@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!--
+		We use %d{ABSOLUTE} for all our appenders to get a faster date
+		implementation
+		@see http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/PatternLayout.html
+	-->
+
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- Print the date in ISO 8601 format -->
+			<param name="ConversionPattern" value="%d{ABSOLUTE} [%t] %-5p %c - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="roll" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="/tmp/complus/client.log" />
+		<param name="append" value="true" />
+		<param name="encoding" value="UTF-8" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%5p %d{ABSOLUTE} [%t][%x] %c - %m%n" />
+		</layout>
+
+		<!--  Pas d'informations TRACE stockées dans le fichier de log -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="INFO" />
+			<param name="levelMax" value="FATAL" />
+		</filter>
+
+	</appender>
+
+	<!-- Logger Cassandra/Pelops -->
+	<logger name="org.scale7.cassandra">
+		<level value="info" />
+	</logger>
+
+	<!-- Logger catalina / tomcat, niveau info -->
+	<logger name="org.apache.catalina">
+		<level value="info" />
+	</logger>
+
+	<!-- Logger commons, niveau info -->
+	<logger name="org.apache.commons">
+		<level value="info" />
+	</logger>
+
+	<!-- Root logger, niveau debug  -->
+	<root>
+		<priority value="debug" />
+		<appender-ref ref="console" />
+		<appender-ref ref="roll" />
+	</root>
+
+</log4j:configuration>

@@ -1,0 +1,101 @@
+package com.axeiya.stillcollab.wysiwyg.client.inserter.indentinserter;
+
+import java.util.List;
+
+import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
+import com.axeiya.stillcollab.wysiwyg.client.inserter.listinserter.OListInserter;
+import com.axeiya.stillcollab.wysiwyg.client.inserter.listinserter.UListInserter;
+import com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter.PInserter;
+import com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter.ParagraphInserter;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ParagraphElement;
+import com.google.gwt.dom.client.Style.Unit;
+
+public class IndentInserter extends ParagraphInserter<Element> {
+
+  public static final int OFFSET = 40;
+
+  protected static final IndentInsertAction insertAction = new IndentInsertAction();
+
+  protected static class IndentInsertAction extends InsertAction<Element> {
+    private static final Element emptyElement = Document.get().createPElement();
+
+    @Override
+    public void onAction(Element element, Selection selection) {
+      int marginLeft;
+      try {
+        marginLeft = Integer.parseInt(element.getStyle().getMarginLeft().replaceAll("px", ""));
+      } catch (NumberFormatException nfe) {
+        marginLeft = 0;
+      }
+      marginLeft += OFFSET;
+      element.getStyle().setMarginLeft(marginLeft, Unit.PX);
+    }
+
+    @Override
+    public Element getEmptyElement() {
+      return emptyElement;
+    }
+  }
+
+  private UListInserter uListInserter;
+  private OListInserter oListInserter;
+
+  public IndentInserter() {
+    this(insertAction);
+  }
+
+  protected IndentInserter(InsertAction<Element> action) {
+    super(action);
+    uListInserter = new UListInserter();
+    oListInserter = new OListInserter();
+  }
+
+  @Override
+  public void insert(Selection selection) {
+    Element listAncestor =
+        DOMUtil.getFirstAncestorInTypes(selection.getRange().getCommonAncestorContainer(),
+            OListInserter.TAGS_LIST);
+    if (listAncestor != null) {
+      // Contexte de liste
+      if (listAncestor.getTagName().equalsIgnoreCase(UListInserter.TAG_NAME)) {
+        uListInserter.insert(selection);
+      } else if (listAncestor.getTagName().equalsIgnoreCase(OListInserter.TAG_NAME)) {
+        oListInserter.insert(selection);
+      }
+    } else {
+      // contexte de paragraphe
+      Element ancestor = getCommonMatchingAncestor(selection);
+      if (ancestor != null && ancestor.getParentElement() != null) {
+        action.doAction(ancestor, selection);
+      } else {
+        // On insert un élément autour de la sélection
+        blockInserter.insert(selection);
+      }
+    }
+  }
+
+  @Override
+  protected ParagraphElement as(Element element) {
+    return ParagraphElement.as(element);
+  }
+
+  @Override
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+    return true;
+  }
+
+  @Override
+  protected List<String> getTagCollection() {
+    return PInserter.PARAGRAPH_TAGS;
+  }
+
+  @Override
+  protected Element getDefaultElement() {
+    return PInserter.DEFAULT_ELEMENT;
+  }
+
+}

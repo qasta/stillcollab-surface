@@ -1,0 +1,27 @@
+/** Add css rules here for your application. */
+	/** Example rules used by the template application (remove for your app) */
+table td {
+	font-size: 12px;
+}
+
+body {
+	font-size: 12px;
+	cursor: default;
+}
+a{
+color: inherit;
+}
+
+input:focus {outline: none}
+
+h1 {
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	margin: 40px 0px 70px;
+	text-align: center;
+}
+
+.sc-Wysiwyg-Toolbar .gwt-ToggleButton {
+	display: inline-block;
+}
