@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.axeiya.stillcollab</groupId>
+	<artifactId>surface-sample</artifactId>
+	<packaging>war</packaging>
+	<version>0.1-SNAPSHOT</version>
+	<parent>
+		<groupId>com.axeiya.stillcollab</groupId>
+		<artifactId>stillcollab-surface</artifactId>
+		<version>0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<properties>
+		<catalina.home>/home/damien/bin/tomcat</catalina.home>
+		<!-- Qualité de la compilation -->
+		<gwt.draft.compile>true</gwt.draft.compile>
+		<!-- Style de sortie : OBF[USCATED], PRETTY, or DETAILED -->
+		<gwt.compile.style>DETAILED</gwt.compile.style>
+
+		<compile.debug>true</compile.debug>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>surface</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- GWT dependencies (from central repo) -->
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>${gwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>${gwt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- Obligé de mettre gwt-dev, sinon on a un conflit sur la classe jdt.CompilerOptions -->
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>${gwt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
+			<version>${gin.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.inject</groupId>
+					<artifactId>guice</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.inject.extensions</groupId>
+					<artifactId>guice-assisted-inject</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- IOC / injection -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		
+	</dependencies>
+
+	<build>
+
+		<outputDirectory>target/WEB-INF/classes</outputDirectory>
+
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>war</directory>
+							<includes>
+								<include>**/*</include>
+							</includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<downloadJavadocs>true</downloadJavadocs>
+					<downloadSources>true</downloadSources>
+					<wtpversion>2.0</wtpversion>
+					<wtpdefaultserver>Tomcat 7</wtpdefaultserver>
+					<wtpContextName>wysiwyg</wtpContextName>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>${gwt.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<style>${gwt.compile.style}</style>
+					<soycDetailed>false</soycDetailed>
+					<compileReport>false</compileReport>
+					<draftCompile>${gwt.draft.compile}</draftCompile>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+					<warSourceExcludes>.gwt-tmp/**</warSourceExcludes>
+					<warSourceExcludes>**/*.nocache.js,**/*.gwt.rpc,**/*.cache.*,**/wysiwyg</warSourceExcludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

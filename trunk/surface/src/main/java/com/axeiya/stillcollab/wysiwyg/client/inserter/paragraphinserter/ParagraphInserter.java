@@ -1,0 +1,113 @@
+package com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter;
+
+import java.util.List;
+
+import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
+import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
+import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.BlockInserter;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
+
+public abstract class ParagraphInserter<E extends Element> extends Inserter {
+
+  protected InsertAction<E> action;
+  protected LocalBlockInserter blockInserter;
+
+  protected class LocalBlockInserter extends BlockInserter<E> {
+
+    protected LocalBlockInserter(InsertAction<E> action) {
+      super(action);
+    }
+
+    @Override
+    protected E as(Element element) {
+      return ParagraphInserter.this.as(element);
+    }
+
+  }
+
+  protected ParagraphInserter() {
+    super();
+  }
+
+  protected ParagraphInserter(InsertAction<E> action) {
+    setAction(action);
+  }
+
+  protected void setAction(InsertAction<E> action) {
+    this.action = action;
+    blockInserter = new LocalBlockInserter(action);
+  }
+
+  @Override
+  public void insert(Selection selection) {
+    Element ancestor = getCommonMatchingAncestor(selection);
+    if (ancestor != null && ancestor.getParentElement() != null) {
+      Element base = (Element) action.getEmptyElement().cloneNode(false);
+      // On rattache les enfants de ancestor à son remplaçant
+      Node nextSibling, child = ancestor.getFirstChild();
+      while (child != null) {
+        nextSibling = child.getNextSibling();
+        child.removeFromParent();
+        base.appendChild(child);
+        child = nextSibling;
+      }
+      ancestor.getParentElement().insertBefore(base, ancestor);
+      ancestor.removeFromParent();
+      action.doAction(as(base), selection);
+    } else {
+      // On insert un élément autour de la sélection
+      blockInserter.insert(selection);
+    }
+  }
+
+  @Override
+  public void remove(Selection selection) {
+    Element ancestor = getCommonMatchingAncestor(selection);
+    if (ancestor != null && ancestor.getParentElement() != null
+        && !ancestor.getTagName().equals(getDefaultElement().getTagName())) {
+      Element base = (Element) getDefaultElement().cloneNode(false);
+      // On rattache les enfants de ancestor à son remplaçant
+      Node nextSibling, child = ancestor.getFirstChild();
+      while (child != null) {
+        nextSibling = child.getNextSibling();
+        child.removeFromParent();
+        base.appendChild(child);
+        child = nextSibling;
+      }
+      ancestor.getParentElement().insertBefore(base, ancestor);
+      ancestor.removeFromParent();
+    }
+  }
+
+  @Override
+  public boolean isSelectionAssignee(Selection selection) {
+    Element ancestor = getElementMatchingAncestor(selection);
+    if (ancestor != null) {
+      return adjustSelectionAssignee(ancestor, selection);
+    }
+    return false;
+  }
+
+  @Override
+  abstract protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection);
+
+  abstract protected List<String> getTagCollection();
+
+  abstract protected Element getDefaultElement();
+
+  protected abstract E as(Element element);
+
+  protected Element getCommonMatchingAncestor(Selection selection) {
+    Element ancestor = (Element) selection.getRange().getCommonAncestorContainer();
+    return DOMUtil.getFirstAncestorInTypes(ancestor, getTagCollection());
+  }
+
+  protected Element getElementMatchingAncestor(Selection selection) {
+    Element ancestor = (Element) selection.getRange().getCommonAncestorContainer();
+    return DOMUtil.getFirstAncestorOfType(ancestor, action.getEmptyElement().getTagName());
+  }
+
+}
