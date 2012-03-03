@@ -20,10 +20,13 @@ import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.axeiya.stillcollab.wysiwyg.client.util.DelayedScheduler;
 import com.google.gwt.dom.client.BodyElement;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.dom.client.Style.BorderStyle;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -79,7 +82,7 @@ public class ContentEditableSurface extends Widget implements Surface {
     mainPanel.getStyle().setBorderWidth(1, Unit.PX);
     mainPanel.getStyle().setBorderColor("black");
     mainPanel.getStyle().setBorderStyle(BorderStyle.DASHED);
-    sinkEvents(Event.ONMOUSEUP | Event.ONKEYDOWN | Event.ONFOCUS | Event.ONBLUR);
+    sinkEvents(Event.ONMOUSEUP | Event.ONKEYDOWN | Event.ONFOCUS | Event.ONBLUR | Event.ONPASTE);
     addPreProcessor(new ParagraphProcessor());
     addPostProcessor(new CleanProcessor());
   }
@@ -142,6 +145,56 @@ public class ContentEditableSurface extends Widget implements Surface {
         ValueChangeEvent.fire(this, getValue());
         event.preventDefault();
         break;
+      case Event.ONPASTE:
+        // On conserve la sélection courante
+        getSelection().getRange().deleteContents();
+        getSelection().getRange().collapse(true);
+        final Node startNode = getSelection().getRange().getStartContainer();
+        final int offset = getSelection().getRange().getStartOffset();
+
+        final DivElement fragment = Document.get().createDivElement();
+        fragment.getStyle().setDisplay(Display.NONE);
+        Node nextSibling,
+        child = getElement().getFirstChild();
+        while (child != null) {
+          nextSibling = child.getNextSibling();
+          fragment.appendChild(child);
+          child = nextSibling;
+        }
+        getElement().getParentElement().insertAfter(fragment, getElement());
+
+        DelayedScheduler.scheduleDelayed(new Command() {
+          @Override
+          public void execute() {
+            String clipboardData =
+                getElement().getInnerHTML().replaceAll("<[^<>]+>", "").replaceAll("</[^<>]+>", "")
+                    .trim().replaceAll("\r\n", "<br />").replaceAll("\n", "<br />");
+            getElement().setInnerHTML("");
+            ParagraphElement par = Document.get().createPElement();
+            par.setInnerHTML(clipboardData);
+
+            Node nextSibling, child = fragment.getFirstChild();
+            while (child != null) {
+              nextSibling = child.getNextSibling();
+              getElement().appendChild(child);
+              child = nextSibling;
+            }
+            if (startNode.getNodeType() == Node.TEXT_NODE) {
+              String before = startNode.getNodeValue().substring(0, offset);
+              String after = startNode.getNodeValue().substring(offset);
+              startNode.setNodeValue(before);
+              Node nextNode = startNode.cloneNode(false);
+              nextNode.setNodeValue(after);
+              startNode.getParentElement().insertAfter(par, startNode);
+              startNode.getParentElement().insertAfter(nextNode, par);
+              getSelection().getRange().setStart(nextNode, 0);
+            } else {
+              startNode.insertBefore(par, startNode.getChild(offset));
+              getSelection().getRange().setStart(startNode, offset + 1);
+            }
+          }
+        });
+        break;
     }
     super.onBrowserEvent(event);
   };
@@ -203,8 +256,8 @@ public class ContentEditableSurface extends Widget implements Surface {
   }
 
   private static native void focus(Element element) /*-{
-                                                    element.focus();
-                                                    }-*/;
+		element.focus();
+  }-*/;
 
   @Override
   public void addPostProcessor(Processor postProcessor) {
