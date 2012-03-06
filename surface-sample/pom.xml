@@ -19,10 +19,47 @@
 		<!-- Style de sortie : OBF[USCATED], PRETTY, or DETAILED -->
 		<gwt.compile.style>DETAILED</gwt.compile.style>
 		<compile.debug>true</compile.debug>
-		
+
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-    	<beanstalk.versionLabel>${maven.build.timestamp}</beanstalk.versionLabel>
+		<beanstalk.versionLabel>${maven.build.timestamp}</beanstalk.versionLabel>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>aws</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>aws</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>br.com.ingenieux</groupId>
+						<artifactId>beanstalk-maven-plugin</artifactId>
+						<version>0.2.6</version>
+						<configuration>
+							<applicationName>surface-sample</applicationName>
+							<s3Bucket>surface-sample</s3Bucket>
+							<s3Key>${project.artifactId}/${project.build.finalName}-${maven.build.timestamp}.war</s3Key>
+						</configuration>
+						<executions>
+							<execution>
+								<id>upload</id>
+								<phase>install</phase>
+								<goals>
+									<goal>upload-source-bundle</goal>
+									<goal>create-application-version</goal>
+									<goal>update-environment</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -139,16 +176,6 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>br.com.ingenieux</groupId>
-				<artifactId>beanstalk-maven-plugin</artifactId>
-				<version>0.2.6</version>
-				<configuration>
-					<applicationName>surface-sample</applicationName>
-					<s3Bucket>surface-sample</s3Bucket>
-					<s3Key>${project.artifactId}/${project.build.finalName}-${maven.build.timestamp}.war</s3Key>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 </project>
