@@ -1,6 +1,4 @@
 #labels Phase-Deploy,Phase-Support,Featured
-#Basic use case of Surface.
-
 = Introduction =
 
 Add your content here.
