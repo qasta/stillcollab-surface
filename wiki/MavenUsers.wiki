@@ -1,0 +1,11 @@
+#Use stillcollab-surface within a Maven project
+
+To import surface into your Maven project, you just have to declare the dependency (currently a SNAPSHOT dependency) :
+
+{{{
+		<dependency>
+			<groupId>com.axeiya.stillcollab</groupId>
+			<artifactId>surface</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
+}}}
