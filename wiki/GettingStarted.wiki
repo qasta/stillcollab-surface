@@ -34,7 +34,7 @@ DefaultToolBar toolBar = new DefaultToolBar();
 To link the toolbar and the surface, we have to declare the surface to the toolbar. This is done with the addManagedSurface method :
 
 {{{
-toolBar.addManagedSurface(editor2);
+toolBar.addManagedSurface(editor);
 }}}
 
 = Put the two component in the UI =
@@ -44,4 +44,13 @@ To finish, we just have to add them on the UI :
 {{{
 RootPanel.get().add(toolBar);
 RootPanel.get().add(editor);
+}}}
+
+= Multiple surfaces =
+
+If you want to manage more than one surface with the toolbar, create a new surface and add it to the toolbar :
+
+{{{
+Surface editor2 = new ContentEditableSurface();
+toolBar.addManagedSurface(editor2);
 }}}
