@@ -20,6 +20,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 	</properties>
+	
+	<distributionManagement>
+		<repository>
+			<name>Axeiya Releases Repository</name>
+			<url>http://nexus.axeiya.com/nexus/content/repositories/releases</url>
+			<id>axeiya</id>
+		</repository>
+		<snapshotRepository>
+			<name>Axeiya Snapshots Repository</name>
+			<url>http://nexus.axeiya.com/nexus/content/repositories/snapshots</url>
+			<id>axeiya</id>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<repositories>
 		<repository>
