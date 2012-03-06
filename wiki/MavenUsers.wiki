@@ -1,4 +1,4 @@
-#labels Phase-Deploy
+#labels Phase-Deploy,Featured
 To import surface into your Maven project, you have to add the repository:
 
 {{{
