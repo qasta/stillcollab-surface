@@ -7,6 +7,7 @@ import com.axeiya.stillcollab.wysiwyg.client.control.block.Quote;
 import com.axeiya.stillcollab.wysiwyg.client.control.block.RemoveLink;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Bold;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Italic;
+import com.axeiya.stillcollab.wysiwyg.client.control.character.Strikethrought;
 import com.axeiya.stillcollab.wysiwyg.client.control.indent.Indent;
 import com.axeiya.stillcollab.wysiwyg.client.control.indent.Outdent;
 import com.axeiya.stillcollab.wysiwyg.client.control.list.OList;
@@ -38,6 +39,7 @@ public class DefaultToolBar extends ToolBar {
     add(new Heading2());
     add(new Bold());
     add(new Italic());
+    add(new Strikethrought());
     add(new Pre());
     add(new Quote());
     add(new InsertLink());

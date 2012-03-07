@@ -9,27 +9,27 @@ import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.dom.client.Style.FontStyle;
+import com.google.gwt.dom.client.Style.TextDecoration;
 
-public class ItalicInserter extends InlineInserter<Element> {
+public class StrikethroughtInserter extends InlineInserter<Element> {
 
-  protected static final ItalicInsertAction insertAction = new ItalicInsertAction();
-  protected static final ItalicInvertAction invertAction = new ItalicInvertAction();
+  protected static final StrikethroughtInsertAction insertAction = new StrikethroughtInsertAction();
+  protected static final StrikethroughtInvertAction invertAction = new StrikethroughtInvertAction();
 
-  public ItalicInserter() {
+  public StrikethroughtInserter() {
     this(insertAction, invertAction);
   }
 
-  protected ItalicInserter(InsertAction<Element> action, InsertAction<Element> invertAction) {
+  protected StrikethroughtInserter(InsertAction<Element> action, InsertAction<Element> invertAction) {
     super(action, invertAction);
   }
 
-  protected static class ItalicInsertAction extends InsertAction<Element> {
+  protected static class StrikethroughtInsertAction extends InsertAction<Element> {
     private static final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
     public void onAction(Element element, Selection selection) {
-      element.getStyle().setFontStyle(FontStyle.ITALIC);
+      element.getStyle().setTextDecoration(TextDecoration.LINE_THROUGH);
     }
 
     @Override
@@ -38,12 +38,12 @@ public class ItalicInserter extends InlineInserter<Element> {
     }
   }
 
-  protected static class ItalicInvertAction extends InsertAction<Element> {
+  protected static class StrikethroughtInvertAction extends InsertAction<Element> {
     private static final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
     public void onAction(Element element, Selection selection) {
-      element.getStyle().setFontStyle(FontStyle.NORMAL);
+      element.getStyle().setTextDecoration(TextDecoration.NONE);
     }
 
     @Override
@@ -53,8 +53,8 @@ public class ItalicInserter extends InlineInserter<Element> {
   }
 
   @Override
-  protected Element as(Element element) {
-    return element;
+  protected SpanElement as(Element element) {
+    return SpanElement.as(element);
   }
 
   @Override
@@ -64,10 +64,10 @@ public class ItalicInserter extends InlineInserter<Element> {
 
   @Override
   protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
-    String fontStyle = "";
-    while ((fontStyle == null || fontStyle.isEmpty()) && matchingAncestor != null) {
-      fontStyle = matchingAncestor.getStyle().getFontStyle();
-      if (FontStyle.ITALIC.toString().toLowerCase().equals(fontStyle)) {
+    String textDecoration = "";
+    while ((textDecoration == null || textDecoration.isEmpty()) && matchingAncestor != null) {
+      textDecoration = matchingAncestor.getStyle().getTextDecoration();
+      if (TextDecoration.LINE_THROUGH.getCssName().toLowerCase().equals(textDecoration)) {
         return true;
       }
       matchingAncestor = matchingAncestor.getParentElement();
