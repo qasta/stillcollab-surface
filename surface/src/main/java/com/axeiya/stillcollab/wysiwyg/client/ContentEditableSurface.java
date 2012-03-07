@@ -206,9 +206,7 @@ public class ContentEditableSurface extends Widget implements Surface {
     DelayedScheduler.scheduleDelayed(new Command() {
       @Override
       public void execute() {
-        setValue("");
         focus();
-
       }
     });
   }
