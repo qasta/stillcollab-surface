@@ -157,9 +157,12 @@ final public class Range extends JavaScriptObject {
 		return this.containsRange(range);
   }-*/;
 
-  public native boolean equivalent(Range other) /*-{
-		return other != null && this.equals(other);
-  }-*/;
+  public boolean equivalent(Range other) {
+    return other != null && this.getStartContainer() == other.getStartContainer()
+        && this.getStartOffset() == other.getStartOffset()
+        && this.getEndContainer() == other.getEndContainer()
+        && this.getEndOffset() == other.getEndOffset();
+  }
 
   /**
    * Deletes the content contained within the range from the document.

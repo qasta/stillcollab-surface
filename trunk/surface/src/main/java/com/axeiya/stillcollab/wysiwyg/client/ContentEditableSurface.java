@@ -41,7 +41,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ContentEditableSurface extends Widget implements Surface {
 
-  private Selection currentSelection;
   private Range currentRange;
   private boolean hasFocus = false;
   private List<Processor> preProcessors = new ArrayList<Processor>();
@@ -51,10 +50,9 @@ public class ContentEditableSurface extends Widget implements Surface {
     @Override
     public void run() {
       if (currentRange == null || !Selection.getSelection().getRange().equivalent(currentRange)) {
+        currentRange = Selection.getSelection().getRange();
         SelectionChangeEvent.fire(ContentEditableSurface.this, Selection.getSelection());
       }
-      currentSelection = Selection.getSelection();
-      currentRange = currentSelection.getRange();
     }
   };
 
@@ -101,7 +99,7 @@ public class ContentEditableSurface extends Widget implements Surface {
     switch (event.getTypeInt()) {
       case Event.ONMOUSEUP:
         selectionChangeTimer.cancel();
-        selectionChangeTimer.schedule(200);
+        selectionChangeTimer.schedule(1);
         break;
       case Event.ONKEYDOWN:
         selectionChangeTimer.cancel();
