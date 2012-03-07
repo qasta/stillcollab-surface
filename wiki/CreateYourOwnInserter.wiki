@@ -2,8 +2,32 @@
 
 = Introduction =
 
-Add your content here.
+One of the most important functionality of Surface is the ability to define and add customs inserters.
+As it is mentioned in the project summary, Surface does not rely on execCommand, but on custom hand-written DOM inserters. At root, Surface brings two inserters, BlockInserter and InlineInserter (both inheriting from Inserter).
 
+== BlockInserter ==
+
+The BlockInserter allows to create a surrounding Element around the selection. Example :
+
+{{{
+ <p>My |sample <span>text</span></p>
+ <p>My second| paragraph</p>
+}}}
+_The | represents the start and end point of the selection_
+
+If I _BlockInsert_ this selection with a <pre> element, Surface will produce :
+{{{
+ <p>My </p>
+ <pre>
+  <p>sample <span>text</span></p>
+  <p>My second</p>
+ </pre>
+ <p> paragraph</p>
+}}}
+
+In surface, this inserter is currently used for a lot of inserters, like Pre, Quote, List, Paragraph etc.
+
+== InlineInserter ==
 
 = Details =
 
