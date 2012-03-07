@@ -121,3 +121,21 @@ In the same way, we have to define an inversion action, that remove the striketh
     }
   }
 }}} 
+
+== Constructors ==
+
+Now, we have to create constructors using these InsertActions. We create static instances for the actions, and use it as default in the constructor :
+
+{{{
+  protected static final StrikethroughtInsertAction insertAction = new StrikethroughtInsertAction();
+  protected static final StrikethroughtInvertAction invertAction = new StrikethroughtInvertAction();
+
+  public StrikethroughtInserter() {
+    this(insertAction, invertAction);
+  }
+
+  protected StrikethroughtInserter(InsertAction<Element> action, InsertAction<Element> invertAction) {
+    super(action, invertAction);
+  }
+}}}
+The protected constructor is used to keep the possibility of inheriting this inserter using customs actions.
