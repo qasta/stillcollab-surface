@@ -59,7 +59,7 @@ public class BoldInserter extends InlineInserter<Element> {
 
   @Override
   protected List<String> getApplicableTags() {
-    return Arrays.asList("p", "span", "div", "blockquote");
+    return Arrays.asList("p", "span");
   }
 
   @Override
