@@ -47,7 +47,32 @@ This inserter is currently used for text inserters, like Italic, Bold etc.
 
 = Create an Inserter =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+To create an inserter, we have to choose which insertion behavior we want to use (Inline or Block), and inherit it. In the example below, we will see how to create a StrikethroughtInserter, which will InlineInsert a Span Element, and define a style attribute to "text-decoration: line-throught".
+
+First of all, we create the inserter class, inheriting from InlineInserter
+{{{
+public class StrikethroughtInserter extends InlineInserter<SpanElement> {
+
+  @Override
+  protected SpanElement as(Element element) {
+    return SpanElement.as(element);
+  }
+
+  @Override
+  protected List<String> getApplicableTags() {
+    return Arrays.asList("p", "span");
+  }
+
+  @Override
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+    return false;
+  }
+
+}
+}}}
+
+The InlineInserter is generic to the Element type, here SpanElement ; so we have to provide a cast helper (as) and the applicable tags.
+
+== Applicable tags ==
+Insomuch as some inserter can be applied to a collection of elements instead of an only element, InlineInserter allows to define which elements can be used to apply an InsertAction (we will see InsertActions bellow).
+If a surrounding matching element is available to apply the action, so it will be used by the inserter ; else, the inserter will create a new Span element.
