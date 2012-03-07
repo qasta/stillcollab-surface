@@ -139,3 +139,23 @@ Now, we have to create constructors using these InsertActions. We create static 
   }
 }}}
 The protected constructor is used to keep the possibility of inheriting this inserter using customs actions.
+
+== Adjust the selection assignation ==
+The method adjustSelectionAssignee is used by the inserter to adjust the selection assignation predicate. By default an inline inserter just check if the element tag is compliant with the given one. But in some case, this is not sufficient ; here, we have to check if the TextDecoration is LINE_THROUGHT :
+
+{{{
+  @Override
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+    String textDecoration = "";
+    while ((textDecoration == null || textDecoration.isEmpty()) && matchingAncestor != null) {
+      textDecoration = matchingAncestor.getStyle().getTextDecoration();
+      if (TextDecoration.LINE_THROUGH.toString().toLowerCase().equals(textDecoration)) {
+        return true;
+      }
+      matchingAncestor = matchingAncestor.getParentElement();
+    }
+    return false;
+  }
+}}}
+
+Now our inserter is fully functionnal. The next step is to create a default UI control for this inserter. See the CreateUiControl.
