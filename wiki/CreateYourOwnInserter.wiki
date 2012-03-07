@@ -149,7 +149,7 @@ The method adjustSelectionAssignee is used by the inserter to adjust the selecti
     String textDecoration = "";
     while ((textDecoration == null || textDecoration.isEmpty()) && matchingAncestor != null) {
       textDecoration = matchingAncestor.getStyle().getTextDecoration();
-      if (TextDecoration.LINE_THROUGH.toString().toLowerCase().equals(textDecoration)) {
+      if (TextDecoration.LINE_THROUGH.getCssName().toLowerCase().equals(textDecoration)) {
         return true;
       }
       matchingAncestor = matchingAncestor.getParentElement();
