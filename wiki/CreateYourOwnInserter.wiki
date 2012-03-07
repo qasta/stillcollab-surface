@@ -28,7 +28,7 @@ If I _BlockInsert_ this selection with a PRE element, Surface will produce :
 This inserter is currently used for a lot of inserters, like Pre, Quote, List, Paragraph etc.
 
 == InlineInserter ==
-The InlineInserter allows to create TEXT_NODE surrounding Element around the selection.
+The InlineInserter allows to create Elements surrounding TEXT_NODES around the selection.
 
 Example :
 {{{
