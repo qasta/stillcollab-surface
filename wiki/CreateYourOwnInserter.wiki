@@ -71,8 +71,15 @@ public class StrikethroughtInserter extends InlineInserter<SpanElement> {
 }
 }}}
 
-The InlineInserter is generic to the Element type, here SpanElement ; so we have to provide a cast helper (as) and the applicable tags.
+The InlineInserter is generic to the Element type, here SpanElement ; so we have to provide a cast helper (as) and the applicable tags. The adjustSelectionAsignee method will be seen later.
 
 == Applicable tags ==
 Insomuch as some inserter can be applied to a collection of elements instead of an only element, InlineInserter allows to define which elements can be used to apply an InsertAction (we will see InsertActions bellow).
 If a surrounding matching element is available to apply the action, so it will be used by the inserter ; else, the inserter will create a new Span element.
+
+So in our example, the applicable tags are P and SPAN.
+
+== Insert Action ==
+
+By default, the Inserter will just insert a SPAN element. Here, the element is not sufficient ; we have to add an inline style to strikethrought the text.
+To do that, we have to define an InsertAction that will produce the inline style.
