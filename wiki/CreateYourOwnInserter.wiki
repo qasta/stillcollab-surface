@@ -51,7 +51,7 @@ To create an inserter, we have to choose which insertion behavior we want to use
 
 First of all, we create the inserter class, inheriting from InlineInserter
 {{{
-public class StrikethroughtInserter extends InlineInserter<SpanElement> {
+public class StrikethroughtInserter extends InlineInserter<Element> {
 
   @Override
   protected SpanElement as(Element element) {
@@ -82,4 +82,42 @@ So in our example, the applicable tags are P and SPAN.
 == Insert Action ==
 
 By default, the Inserter will just insert a SPAN element. Here, the element is not sufficient ; we have to add an inline style to strikethrought the text.
-To do that, we have to define an InsertAction that will produce the inline style.
+To do that, we have to define an InsertAction that will produce the inline style :
+
+{{{
+  protected static class StrikethroughtInsertAction extends InsertAction<Element> {
+    private static final SpanElement emptyElement = Document.get().createSpanElement();
+
+    @Override
+    public void onAction(Element element, Selection selection) {
+      element.getStyle().setTextDecoration(TextDecoration.LINE_THROUGH);
+    }
+
+    @Override
+    public SpanElement getEmptyElement() {
+      return emptyElement;
+    }
+  }
+}}}
+
+The onAction method allows to manipulate the inserted Element and provide the current selection, if needed.
+
+The getEmptyElement is used for comparison purpose.
+
+In the same way, we have to define an inversion action, that remove the strikethrought :
+
+{{{
+  protected static class StrikethroughtInvertAction extends InsertAction<Element> {
+    private static final SpanElement emptyElement = Document.get().createSpanElement();
+
+    @Override
+    public void onAction(Element element, Selection selection) {
+      element.getStyle().setTextDecoration(TextDecoration.NONE);
+    }
+
+    @Override
+    public SpanElement getEmptyElement() {
+      return emptyElement;
+    }
+  }
+}}} 
