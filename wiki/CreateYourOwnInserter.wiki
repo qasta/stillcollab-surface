@@ -15,7 +15,7 @@ The BlockInserter allows to create a surrounding Element around the selection. E
 }}}
 _The | represents the start and end point of the selection_
 
-If I _BlockInsert_ this selection with a <pre> element, Surface will produce :
+If I _BlockInsert_ this selection with a PRE element, Surface will produce :
 {{{
  <p>My </p>
  <pre>
@@ -25,11 +25,27 @@ If I _BlockInsert_ this selection with a <pre> element, Surface will produce :
  <p> paragraph</p>
 }}}
 
-In surface, this inserter is currently used for a lot of inserters, like Pre, Quote, List, Paragraph etc.
+This inserter is currently used for a lot of inserters, like Pre, Quote, List, Paragraph etc.
 
 == InlineInserter ==
+The InlineInserter allows to create TEXT_NODE surrounding Element around the selection.
 
-= Details =
+Example :
+{{{
+ <p>My |sample <span>text</span></p>
+ <p>My second| paragraph</p>
+}}}
+_The | represents the start and end point of the selection_
+
+If I _InlineInsert_ this selection with a EM element, Surface will produce :
+{{{
+ <p>My <em>sample </em><span><em>text</em></span></p>
+ <p><em>My second</em> paragraph</p>
+}}}
+
+This inserter is currently used for text inserters, like Italic, Bold etc.
+
+= Create an Inserter =
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
