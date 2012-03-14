@@ -325,7 +325,7 @@ public class DOMUtil {
 
     if (node.getNodeType() == Node.TEXT_NODE) {
       sb.append(node.getNodeValue());
-    } else {
+    } else if(node.getNodeType() == Node.ELEMENT_NODE) {
       Element element = (Element) node;
       sb.append("<" + node.getNodeName().toLowerCase());
       int i = 0;
