@@ -333,7 +333,7 @@ public class DOMUtil {
       while (i < attributes.length()) {
         Node attribute = attributes.get(i);
         sb.append(" " + attribute.getNodeName().toLowerCase() + "=\""
-            + impl.getAttributeStringValue(element, attribute.getNodeName()) + "\"");
+            + impl.getAttributeStringValue(element, attribute.getNodeName()).replaceAll("&", "&amp;") + "\"");
         i++;
       }
       if (!element.hasChildNodes()) {
