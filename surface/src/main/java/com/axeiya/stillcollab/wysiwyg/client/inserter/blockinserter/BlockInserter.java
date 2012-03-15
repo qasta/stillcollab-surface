@@ -91,8 +91,11 @@ abstract public class BlockInserter<E extends Element> extends Inserter {
         Node afterNode = document.createTextNode(after);
         ancestor.insertAfter(afterNode, container);
       } else {
-        startNode.insertBefore(container, startNode.getChild(range.getStartOffset()));
-    	//startNode.appendChild(container);
+        if(range.getStartOffset() >= startNode.getChildCount()) {
+          startNode.appendChild(container);
+        } else {
+    	  startNode.insertBefore(container, startNode.getChild(range.getStartOffset()));
+        }
       }
     } else {
       Node nextSibling, child = ancestor.getFirstChild();
