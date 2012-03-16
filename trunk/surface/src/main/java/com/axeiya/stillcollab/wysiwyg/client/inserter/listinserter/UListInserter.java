@@ -5,7 +5,6 @@ import java.util.List;
 import com.axeiya.stillcollab.wysiwyg.client.event.hotkeypressed.HotKeyPressedEvent;
 import com.axeiya.stillcollab.wysiwyg.client.event.hotkeypressed.HotKeyPressedHandler;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
-import com.axeiya.stillcollab.wysiwyg.client.inserter.action.ListInsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

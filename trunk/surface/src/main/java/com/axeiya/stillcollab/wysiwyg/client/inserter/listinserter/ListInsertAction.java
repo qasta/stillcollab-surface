@@ -1,7 +1,8 @@
-package com.axeiya.stillcollab.wysiwyg.client.inserter.action;
+package com.axeiya.stillcollab.wysiwyg.client.inserter.listinserter;
 
 import java.util.List;
 
+import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
@@ -29,16 +30,10 @@ public abstract class ListInsertAction<E extends Element> extends InsertAction<E
     }
     // On insert un li entre deux
     Element li = Document.get().createLIElement();
-    Node nextSibling, child = element.getFirstChild();
-    while (child != null) {
-      nextSibling = child.getNextSibling();
-      child.removeFromParent();
-      li.appendChild(child);
-      child = nextSibling;
-    }
+    moveContent(element, li);
     element.appendChild(li);
     // on essaye de recoler les ul adjacents
-    Node n = DOMUtil.getNextStrongSibling(element);
+    Node child, nextSibling, n = DOMUtil.getNextStrongSibling(element);
     if (n != null && n.getNodeType() == Node.ELEMENT_NODE
         && n.getNodeName().equals(element.getTagName())) {
       // Le suivant est de même type
@@ -92,6 +87,21 @@ public abstract class ListInsertAction<E extends Element> extends InsertAction<E
         }
         element.removeFromParent();
       }
+    }
+  }
+
+  protected void moveContent(Element from, Element to) {
+    Node nextSibling, child = from.getFirstChild();
+    while (child != null) {
+      nextSibling = child.getNextSibling();
+      child.removeFromParent();
+      //On supprime les P
+      if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equalsIgnoreCase("p")) {
+        moveContent((Element) child, to);
+      } else {
+        to.appendChild(child);
+      }
+      child = nextSibling;
     }
   }
 
