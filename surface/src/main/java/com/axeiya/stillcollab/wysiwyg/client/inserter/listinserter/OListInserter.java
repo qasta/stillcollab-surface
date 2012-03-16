@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
-import com.axeiya.stillcollab.wysiwyg.client.inserter.action.ListInsertAction;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.OListElement;
