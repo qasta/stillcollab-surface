@@ -100,7 +100,7 @@ public class ImageInserter extends BlockInserter<ImageElement> {
   @Deprecated
   @Override
   public void insert(Selection selection) {
-    throw new IllegalArgumentException("Use insert(Selection,String) instead");
+    throw new IllegalArgumentException("Use insert(Selection,ImageConfig) instead");
   }
 
   public ImageConfig getCurrentConfig(Selection selection) {
