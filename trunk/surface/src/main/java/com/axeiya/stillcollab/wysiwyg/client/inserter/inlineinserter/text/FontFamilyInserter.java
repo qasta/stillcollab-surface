@@ -13,23 +13,29 @@ import com.google.gwt.dom.client.Style.FontStyle;
 
 public class FontFamilyInserter extends InlineInserter<Element> {
 
-  protected static final FontFamilyInsertAction insertAction = new FontFamilyInsertAction();
-  protected static final FontFamilyInvertAction invertAction = new FontFamilyInvertAction();
+  private FontFamilyConfig currentConfig;
 
   public FontFamilyInserter() {
-    this(insertAction, invertAction);
+    action = new FontFamilyInsertAction();
+    invertAction = new FontFamilyInvertAction();
   }
 
   protected FontFamilyInserter(InsertAction<Element> action, InsertAction<Element> invertAction) {
     super(action, invertAction);
   }
 
-  protected static class FontFamilyInsertAction extends InsertAction<Element> {
-    private static final SpanElement emptyElement = Document.get().createSpanElement();
+  protected class FontFamilyInsertAction extends InsertAction<Element> {
+    private final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
     public void onAction(Element element, Selection selection) {
-      //element.getStyle().;
+      if (FontFamilyInserter.this.currentConfig.getFontName().equals(
+          FontFamilyConfig.DEFAULT_FONTNAME)) {
+        element.getStyle().clearProperty("fontFamily");
+      } else {
+        element.getStyle().setProperty("fontFamily",
+            FontFamilyInserter.this.currentConfig.getFontName());
+      }
     }
 
     @Override
@@ -49,6 +55,35 @@ public class FontFamilyInserter extends InlineInserter<Element> {
     public SpanElement getEmptyElement() {
       return emptyElement;
     }
+  }
+
+  public static class FontFamilyConfig {
+    public static final String DEFAULT_FONTNAME = "default";
+    private String fontName;
+
+    public FontFamilyConfig(String fontName) {
+      super();
+      this.fontName = fontName;
+    }
+
+    public String getFontName() {
+      return fontName;
+    }
+
+    public void setFontName(String fontName) {
+      this.fontName = fontName;
+    }
+  }
+
+  public void insert(Selection selection, FontFamilyConfig config) {
+    currentConfig = config;
+    super.insert(selection);
+  }
+
+  @Deprecated
+  @Override
+  public void insert(Selection selection) {
+    throw new IllegalArgumentException("Use insert(Selection,FontFamilyConfig) instead");
   }
 
   @Override
