@@ -14,7 +14,6 @@ abstract public class AbstractControl implements SelectionChangeHandler,
   protected Surface currentSurface;
 
   protected void execute(final Command command) {
-    // currentSurface.focus();
     DelayedScheduler.scheduleDelayed(new Command() {
       @Override
       public void execute() {

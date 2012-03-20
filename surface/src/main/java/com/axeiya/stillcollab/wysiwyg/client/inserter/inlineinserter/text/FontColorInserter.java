@@ -9,32 +9,30 @@ import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.dom.client.Style.FontStyle;
 
-public class FontFamilyInserter extends InlineInserter<Element> {
+public class FontColorInserter extends InlineInserter<Element> {
 
-  private FontFamilyConfig currentConfig;
+  private FontColorConfig currentConfig;
 
-  public FontFamilyInserter() {
-    action = new FontFamilyInsertAction();
-    invertAction = new FontFamilyInvertAction();
+  public FontColorInserter() {
+    action = new FontColorInsertAction();
+    invertAction = new FontColorInvertAction();
   }
 
-  protected FontFamilyInserter(InsertAction<Element> action, InsertAction<Element> invertAction) {
+  protected FontColorInserter(InsertAction<Element> action, InsertAction<Element> invertAction) {
     super(action, invertAction);
   }
 
-  protected class FontFamilyInsertAction extends InsertAction<Element> {
+  protected class FontColorInsertAction extends InsertAction<Element> {
     private final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
     public void onAction(Element element, Selection selection) {
-      if (FontFamilyInserter.this.currentConfig.getFontName().equals(
-          FontFamilyConfig.DEFAULT_FONTNAME)) {
-        element.getStyle().clearProperty("fontFamily");
+      if (FontColorInserter.this.currentConfig.getColor().equals(
+          FontColorConfig.DEFAULT_COLOR)) {
+        element.getStyle().clearColor();
       } else {
-        element.getStyle().setProperty("fontFamily",
-            FontFamilyInserter.this.currentConfig.getFontName());
+        element.getStyle().setColor(FontColorInserter.this.currentConfig.getColor());
       }
     }
 
@@ -44,7 +42,7 @@ public class FontFamilyInserter extends InlineInserter<Element> {
     }
   }
 
-  protected static class FontFamilyInvertAction extends InsertAction<Element> {
+  protected static class FontColorInvertAction extends InsertAction<Element> {
     private static final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
@@ -57,25 +55,25 @@ public class FontFamilyInserter extends InlineInserter<Element> {
     }
   }
 
-  public static class FontFamilyConfig {
-    public static final String DEFAULT_FONTNAME = "default";
-    private String fontName;
+  public static class FontColorConfig {
+    public static final String DEFAULT_COLOR = "default";
+    private String color;
 
-    public FontFamilyConfig(String fontName) {
+    public FontColorConfig(String color) {
       super();
-      this.fontName = fontName;
+      this.color = color;
     }
 
-    public String getFontName() {
-      return fontName;
+    public String getColor() {
+      return color;
     }
 
-    public void setFontName(String fontName) {
-      this.fontName = fontName;
+    public void setColor(String color) {
+      this.color = color;
     }
   }
 
-  public void insert(Selection selection, FontFamilyConfig config) {
+  public void insert(Selection selection, FontColorConfig config) {
     currentConfig = config;
     super.insert(selection);
   }
@@ -83,7 +81,7 @@ public class FontFamilyInserter extends InlineInserter<Element> {
   @Deprecated
   @Override
   public void insert(Selection selection) {
-    throw new IllegalArgumentException("Use insert(Selection,FontFamilyConfig) instead");
+    throw new IllegalArgumentException("Use insert(Selection,FontColorConfig) instead");
   }
 
   @Override
@@ -98,7 +96,7 @@ public class FontFamilyInserter extends InlineInserter<Element> {
 
   @Override
   protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
-    //TODO : à implanter en retournant le nom de la police
+    //TODO : à implanter en permettant de retourner la valeur de la couleur
     return false;
   }
 

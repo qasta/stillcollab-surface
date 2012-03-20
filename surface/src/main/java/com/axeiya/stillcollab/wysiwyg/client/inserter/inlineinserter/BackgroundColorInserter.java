@@ -1,4 +1,4 @@
-package com.axeiya.stillcollab.wysiwyg.client.inserter.inlineinserter.text;
+package com.axeiya.stillcollab.wysiwyg.client.inserter.inlineinserter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,18 +9,17 @@ import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.dom.client.Style.FontStyle;
 
-public class FontFamilyInserter extends InlineInserter<Element> {
+public class BackgroundColorInserter extends InlineInserter<Element> {
 
-  private FontFamilyConfig currentConfig;
+  private BackgroundColorConfig currentConfig;
 
-  public FontFamilyInserter() {
+  public BackgroundColorInserter() {
     action = new FontFamilyInsertAction();
     invertAction = new FontFamilyInvertAction();
   }
 
-  protected FontFamilyInserter(InsertAction<Element> action, InsertAction<Element> invertAction) {
+  protected BackgroundColorInserter(InsertAction<Element> action, InsertAction<Element> invertAction) {
     super(action, invertAction);
   }
 
@@ -29,12 +28,11 @@ public class FontFamilyInserter extends InlineInserter<Element> {
 
     @Override
     public void onAction(Element element, Selection selection) {
-      if (FontFamilyInserter.this.currentConfig.getFontName().equals(
-          FontFamilyConfig.DEFAULT_FONTNAME)) {
-        element.getStyle().clearProperty("fontFamily");
+      if (BackgroundColorInserter.this.currentConfig.getColor().equals(
+          BackgroundColorConfig.DEFAULT_COLOR)) {
+        element.getStyle().clearBackgroundColor();
       } else {
-        element.getStyle().setProperty("fontFamily",
-            FontFamilyInserter.this.currentConfig.getFontName());
+        element.getStyle().setBackgroundColor(BackgroundColorInserter.this.currentConfig.getColor());
       }
     }
 
@@ -57,25 +55,25 @@ public class FontFamilyInserter extends InlineInserter<Element> {
     }
   }
 
-  public static class FontFamilyConfig {
-    public static final String DEFAULT_FONTNAME = "default";
-    private String fontName;
+  public static class BackgroundColorConfig {
+    public static final String DEFAULT_COLOR = "default";
+    private String color;
 
-    public FontFamilyConfig(String fontName) {
+    public BackgroundColorConfig(String color) {
       super();
-      this.fontName = fontName;
+      this.color = color;
     }
 
-    public String getFontName() {
-      return fontName;
+    public String getColor() {
+      return color;
     }
 
-    public void setFontName(String fontName) {
-      this.fontName = fontName;
+    public void setColor(String color) {
+      this.color = color;
     }
   }
 
-  public void insert(Selection selection, FontFamilyConfig config) {
+  public void insert(Selection selection, BackgroundColorConfig config) {
     currentConfig = config;
     super.insert(selection);
   }
@@ -83,7 +81,7 @@ public class FontFamilyInserter extends InlineInserter<Element> {
   @Deprecated
   @Override
   public void insert(Selection selection) {
-    throw new IllegalArgumentException("Use insert(Selection,FontFamilyConfig) instead");
+    throw new IllegalArgumentException("Use insert(Selection,FontColorConfig) instead");
   }
 
   @Override
@@ -93,12 +91,12 @@ public class FontFamilyInserter extends InlineInserter<Element> {
 
   @Override
   protected List<String> getApplicableTags() {
-    return Arrays.asList("p", "span");
+    return Arrays.asList("p", "span", "td", "div");
   }
 
   @Override
   protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
-    //TODO : à implanter en retournant le nom de la police
+    //TODO : à implanter en permettant de retourner la valeur de la couleur
     return false;
   }
 
