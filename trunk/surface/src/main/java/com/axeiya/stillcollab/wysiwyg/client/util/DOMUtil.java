@@ -302,6 +302,26 @@ public class DOMUtil {
     }
     return null;
   }
+  
+  public static Element getFirstChildOfType(Element element, String tag) {
+    @SuppressWarnings("unchecked")
+    JsArray<Element> elements = (JsArray<Element>) JsArray.createArray();
+    Element elem = element;
+    do {
+      if(elem.getTagName().equalsIgnoreCase(tag)) {
+        return elem;
+      }
+      Node child = elem.getFirstChild();
+      while(child != null) {
+        if(child.getNodeType() == Node.ELEMENT_NODE) {
+          elements.push((Element) child);
+        }
+        child = child.getNextSibling();
+      }
+      elem = elements.shift();
+    } while(elem != null);
+    return null;
+  }
 
   /**
    * Supprime tout le contenu du noeud
