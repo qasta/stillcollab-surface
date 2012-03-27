@@ -3,10 +3,12 @@ package com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.media;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.BlockInserter;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.Style.Unit;
 
 public class ImageInserter extends BlockInserter<ImageElement> {
@@ -103,21 +105,34 @@ public class ImageInserter extends BlockInserter<ImageElement> {
     throw new IllegalArgumentException("Use insert(Selection,ImageConfig) instead");
   }
 
+  @Override
+  public boolean isSelectionAssignee(Selection selection) {
+    Node ancestor = selection.getRange().getCommonAncestorContainer();
+    if (ancestor != null && ancestor.getNodeType() == Node.ELEMENT_NODE) {
+      Element img = DOMUtil.getFirstChildOfType((Element) ancestor, "img");
+      return img != null;
+    }
+    return false;
+  }
+
   public ImageConfig getCurrentConfig(Selection selection) {
-    ImageElement img = (ImageElement) getCommonMatchingAncestor(selection);
-    if (img != null) {
-      ImageConfig config = new ImageConfig(img.getSrc());
-      try {
-        if (img.getStyle().getWidth() != null) {
-          config.setWidth(Integer.parseInt(img.getStyle().getWidth()));
+    Node ancestor = selection.getRange().getCommonAncestorContainer();
+    if (ancestor != null && ancestor.getNodeType() == Node.ELEMENT_NODE) {
+      ImageElement img = (ImageElement) DOMUtil.getFirstChildOfType((Element) ancestor, "img");
+      if (img != null) {
+        ImageConfig config = new ImageConfig(img.getSrc());
+        try {
+          if (img.getStyle().getWidth() != null && !img.getStyle().getWidth().isEmpty()) {
+            config.setWidth(Integer.parseInt(img.getStyle().getWidth()));
+          }
+          if (img.getStyle().getHeight() != null && !img.getStyle().getHeight().isEmpty()) {
+            config.setHeight(Integer.parseInt(img.getStyle().getHeight()));
+          }
+        } catch (NumberFormatException nfe) {
+          GWT.log("Error while retrieving img size", nfe);
         }
-        if (img.getStyle().getHeight() != null) {
-          config.setHeight(Integer.parseInt(img.getStyle().getHeight()));
-        }
-      } catch (NumberFormatException nfe) {
-        GWT.log("Error while retrieving img size", nfe);
+        return config;
       }
-      return config;
     }
     return null;
 
