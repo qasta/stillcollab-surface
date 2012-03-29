@@ -74,6 +74,9 @@ final public class Range extends JavaScriptObject {
   // }-*/;
 
   public Node getCommonAncestorContainer() {
+    if(getStartContainer() == null || getEndContainer() == null) {
+      return null;
+    }
     return DOMUtil.getCommonAncestor(getStartContainer(), getEndContainer());
   }
 

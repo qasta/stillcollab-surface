@@ -1,6 +1,7 @@
 package com.axeiya.stillcollab.wysiwyg.client.event.selectionchange;
 
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.event.shared.GwtEvent;
 
 public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
@@ -14,14 +15,14 @@ public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
     return TYPE;
   }
 
-  private Selection selection;
+  private SurfaceSelection selection;
 
-  protected SelectionChangeEvent(Selection selection) {
+  protected SelectionChangeEvent(SurfaceSelection selection) {
     super();
     this.selection = selection;
   }
 
-  public Selection getSelection() {
+  public SurfaceSelection getSelection() {
     return selection;
   }
 
@@ -35,7 +36,7 @@ public class SelectionChangeEvent extends GwtEvent<SelectionChangeHandler> {
     return getType();
   }
 
-  public static void fire(HasSelectionChangeHandlers source, Selection oldSelection) {
+  public static void fire(HasSelectionChangeHandlers source, SurfaceSelection oldSelection) {
     source.fireEvent(new SelectionChangeEvent(oldSelection));
   }
 

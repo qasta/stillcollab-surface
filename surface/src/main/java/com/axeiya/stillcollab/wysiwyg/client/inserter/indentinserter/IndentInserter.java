@@ -7,7 +7,7 @@ import com.axeiya.stillcollab.wysiwyg.client.inserter.listinserter.OListInserter
 import com.axeiya.stillcollab.wysiwyg.client.inserter.listinserter.UListInserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter.PInserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter.ParagraphInserter;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -24,7 +24,7 @@ public class IndentInserter extends ParagraphInserter<Element> {
     private static final Element emptyElement = Document.get().createPElement();
 
     @Override
-    public void onAction(Element element, Selection selection) {
+    public void onAction(Element element, SurfaceSelection selection) {
       int marginLeft;
       try {
         marginLeft = Integer.parseInt(element.getStyle().getMarginLeft().replaceAll("px", ""));
@@ -55,10 +55,10 @@ public class IndentInserter extends ParagraphInserter<Element> {
   }
 
   @Override
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection selection) {
     Element listAncestor =
-        DOMUtil.getFirstAncestorInTypes(selection.getRange().getCommonAncestorContainer(),
-            OListInserter.TAGS_LIST);
+        DOMUtil.getFirstAncestorInTypes(selection.getSelection().getRange()
+            .getCommonAncestorContainer(), OListInserter.TAGS_LIST);
     if (listAncestor != null) {
       // Contexte de liste
       if (listAncestor.getTagName().equalsIgnoreCase(UListInserter.TAG_NAME)) {
@@ -84,7 +84,7 @@ public class IndentInserter extends ParagraphInserter<Element> {
   }
 
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
     return true;
   }
 

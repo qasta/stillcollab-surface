@@ -1,14 +1,27 @@
 package com.axeiya.stillcollab.wysiwyg.client.inserter.action;
 
+import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
+import com.axeiya.stillcollab.wysiwyg.client.util.DelayedScheduler;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Command;
 
 public abstract class InsertAction<E extends Element> {
 
-  public void doAction(E element, Selection selection) {
+  public void doAction(final E element, final SurfaceSelection selection) {
     onAction(element, selection);
     DOMUtil.cleanBranch(element);
+    DelayedScheduler.scheduleDelayed(new Command() {
+      @Override
+      public void execute() {
+        Range range = selection.getSelection().getRange();
+        range.selectNode(element);
+        selection.getAssociatedSurface().setSelection(range);
+      }
+    });
+    
   }
 
   /**
@@ -16,14 +29,14 @@ public abstract class InsertAction<E extends Element> {
    * 
    * @param element Elément sur lequel effectuer l'action
    */
-  abstract public void onAction(E element, Selection selection);
+  abstract public void onAction(E element, SurfaceSelection selection);
 
   /**
    * Action à effectuer lors de la suppression
    * 
    * @param element
    */
-  public void onRevert(Element element, Selection selection) {
+  public void onRevert(Element element, SurfaceSelection selection) {
   }
 
   /**

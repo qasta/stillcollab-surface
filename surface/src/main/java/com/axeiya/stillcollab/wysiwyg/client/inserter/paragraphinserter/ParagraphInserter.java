@@ -5,7 +5,7 @@ import java.util.List;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.BlockInserter;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
@@ -42,7 +42,7 @@ public abstract class ParagraphInserter<E extends Element> extends Inserter {
   }
 
   @Override
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection selection) {
     Element ancestor = getCommonMatchingAncestor(selection);
     if (ancestor != null && ancestor.getParentElement() != null) {
       Element base = (Element) action.getEmptyElement().cloneNode(false);
@@ -64,7 +64,7 @@ public abstract class ParagraphInserter<E extends Element> extends Inserter {
   }
 
   @Override
-  public void remove(Selection selection) {
+  public void remove(SurfaceSelection selection) {
     Element ancestor = getCommonMatchingAncestor(selection);
     if (ancestor != null && ancestor.getParentElement() != null
         && !ancestor.getTagName().equals(getDefaultElement().getTagName())) {
@@ -83,7 +83,7 @@ public abstract class ParagraphInserter<E extends Element> extends Inserter {
   }
 
   @Override
-  public boolean isSelectionAssignee(Selection selection) {
+  public boolean isSelectionAssignee(SurfaceSelection selection) {
     Element ancestor = getElementMatchingAncestor(selection);
     if (ancestor != null) {
       return adjustSelectionAssignee(ancestor, selection);
@@ -92,7 +92,8 @@ public abstract class ParagraphInserter<E extends Element> extends Inserter {
   }
 
   @Override
-  abstract protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection);
+  abstract protected boolean adjustSelectionAssignee(Element matchingAncestor,
+      SurfaceSelection selection);
 
   abstract protected List<String> getTagCollection();
 
@@ -100,13 +101,13 @@ public abstract class ParagraphInserter<E extends Element> extends Inserter {
 
   protected abstract E as(Element element);
 
-  protected Element getCommonMatchingAncestor(Selection selection) {
-    Element ancestor = (Element) selection.getRange().getCommonAncestorContainer();
+  protected Element getCommonMatchingAncestor(SurfaceSelection selection) {
+    Element ancestor = (Element) selection.getSelection().getRange().getCommonAncestorContainer();
     return DOMUtil.getFirstAncestorInTypes(ancestor, getTagCollection());
   }
 
-  protected Element getElementMatchingAncestor(Selection selection) {
-    Element ancestor = (Element) selection.getRange().getCommonAncestorContainer();
+  protected Element getElementMatchingAncestor(SurfaceSelection selection) {
+    Element ancestor = (Element) selection.getSelection().getRange().getCommonAncestorContainer();
     return DOMUtil.getFirstAncestorOfType(ancestor, action.getEmptyElement().getTagName());
   }
 

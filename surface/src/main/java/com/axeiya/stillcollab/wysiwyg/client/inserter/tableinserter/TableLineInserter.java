@@ -2,6 +2,7 @@ package com.axeiya.stillcollab.wysiwyg.client.inserter.tableinserter;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
@@ -9,11 +10,11 @@ import com.google.gwt.dom.client.Node;
 public class TableLineInserter extends Inserter {
 
   @Override
-  public void insert(Selection selection) {
-    Node ancestor = selection.getRange().getCommonAncestorContainer();
+  public void insert(SurfaceSelection selection) {
+    Node ancestor = selection.getSelection().getRange().getCommonAncestorContainer();
 
     // Ensuite on cherche à trouver le tr le plus proche
-    Node endNode = selection.getRange().getEndContainer();
+    Node endNode = selection.getSelection().getRange().getEndContainer();
     Node tr = DOMUtil.getFirstAncestorOfType(endNode, TableInserter.LINE_TAG);
     int columnCount = tr.getChildCount();
     Node newLine = tr.cloneNode(false);
@@ -26,8 +27,8 @@ public class TableLineInserter extends Inserter {
   }
 
   @Override
-  public void remove(Selection selection) {
-    Node endNode = selection.getRange().getEndContainer();
+  public void remove(SurfaceSelection selection) {
+    Node endNode = selection.getSelection().getRange().getEndContainer();
     Node tr = DOMUtil.getFirstAncestorOfType(endNode, TableInserter.LINE_TAG);
     if (tr != null) {
       tr.removeFromParent();
@@ -35,15 +36,15 @@ public class TableLineInserter extends Inserter {
   }
 
   @Override
-  public boolean isSelectionAssignee(Selection selection) {
+  public boolean isSelectionAssignee(SurfaceSelection selection) {
     Node ancestor =
-        DOMUtil.getFirstAncestorOfType(selection.getRange().getStartContainer(),
+        DOMUtil.getFirstAncestorOfType(selection.getSelection().getRange().getStartContainer(),
             TableInserter.TABLE_TAG);
     return ancestor != null;
   }
 
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
     return true;
   }
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -156,8 +157,8 @@ public class DOMUtil {
     return true;
   }
 
-  public static Selection glueTextNodes(Selection selection, Document document) {
-    Range range = selection.getRange();
+  public static SurfaceSelection glueTextNodes(SurfaceSelection selection, Document document) {
+    Range range = selection.getSelection().getRange();
     Node startNode = range.getStartContainer();
     Node endNode = range.getEndContainer();
     Node commonParent = startNode.getParentNode();
@@ -183,7 +184,7 @@ public class DOMUtil {
     // Reste à mettre en place la nouvelle sélection
     range.setStart(replacementNode, range.getStartOffset());
     range.setEnd(replacementNode, endOffset);
-    selection.setSingleRange(range);
+    selection.getAssociatedSurface().setSelection(range);
     return selection;
   }
 

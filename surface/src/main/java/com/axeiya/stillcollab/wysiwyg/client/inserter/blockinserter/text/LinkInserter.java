@@ -3,6 +3,7 @@ package com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.text;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.BlockInserter;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -24,7 +25,7 @@ public class LinkInserter extends BlockInserter<AnchorElement> {
   protected class LinkInsertAction extends InsertAction<AnchorElement> {
 
     @Override
-    public void onAction(AnchorElement element, Selection selection) {
+    public void onAction(AnchorElement element, SurfaceSelection selection) {
       LinkConfig config = LinkInserter.this.currentConfig;
       element.setHref(config.getUrl());
     }
@@ -53,7 +54,7 @@ public class LinkInserter extends BlockInserter<AnchorElement> {
     return AnchorElement.as(element);
   }
 
-  public void insert(Selection selection, LinkConfig config) {
+  public void insert(SurfaceSelection selection, LinkConfig config) {
     currentConfig = config;
     super.insert(selection);
   }
@@ -63,11 +64,11 @@ public class LinkInserter extends BlockInserter<AnchorElement> {
    */
   @Deprecated
   @Override
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection selection) {
     throw new IllegalArgumentException("Use insert(Selection,String) instead");
   }
 
-  public LinkConfig getCurrentConfig(Selection selection) {
+  public LinkConfig getCurrentConfig(SurfaceSelection selection) {
     AnchorElement anchor = (AnchorElement) getCommonMatchingAncestor(selection);
     if (anchor != null) {
       LinkConfig config = new LinkConfig(anchor.getHref());
@@ -77,7 +78,7 @@ public class LinkInserter extends BlockInserter<AnchorElement> {
 
   }
 
-  public void updateConfig(Selection selection, String url) {
+  public void updateConfig(SurfaceSelection selection, String url) {
     AnchorElement anchor = (AnchorElement) getCommonMatchingAncestor(selection);
     if (anchor != null) {
       currentConfig = new LinkConfig(url);

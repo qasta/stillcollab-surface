@@ -29,31 +29,36 @@ public class InsertImage extends AbstractControl implements ClickHandler, IsWidg
   public void onClick(ClickEvent event) {
     if (!imgSelected) {
       final String url = Window.prompt("URL", "");
-      execute(new Command() {
-        @Override
-        public void execute() {
-          inserter.insert(currentSurface.getSelection(), new ImageConfig(url));
-        }
-      });
-
-    } else {
-      ImageConfig config = inserter.getCurrentConfig(currentSurface.getSelection());
-      if (config != null) {
-        final String url = Window.prompt("URL", config.getUrl());
-        execute(new Command() {
-          @Override
-          public void execute() {
-            inserter.updateConfig(currentSurface.getSelection(), new ImageConfig(url));
-          }
-        });
-      } else {
-        final String url = Window.prompt("URL", "");
+      if (url != null && !url.trim().isEmpty()) {
         execute(new Command() {
           @Override
           public void execute() {
             inserter.insert(currentSurface.getSelection(), new ImageConfig(url));
           }
         });
+      }
+    } else {
+      ImageConfig config = inserter.getCurrentConfig(currentSurface.getSelection());
+      if (config != null) {
+        final String url = Window.prompt("URL", config.getUrl());
+        if (url != null && !url.trim().isEmpty()) {
+          execute(new Command() {
+            @Override
+            public void execute() {
+              inserter.updateConfig(currentSurface.getSelection(), new ImageConfig(url));
+            }
+          });
+        }
+      } else {
+        final String url = Window.prompt("URL", "");
+        if (url != null && !url.trim().isEmpty()) {
+          execute(new Command() {
+            @Override
+            public void execute() {
+              inserter.insert(currentSurface.getSelection(), new ImageConfig(url));
+            }
+          });
+        }
       }
     }
   }

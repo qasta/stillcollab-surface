@@ -6,7 +6,8 @@ import com.axeiya.stillcollab.wysiwyg.client.event.selectedsurfacechange.HasSele
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.HasSelectionChangeHandlers;
 import com.axeiya.stillcollab.wysiwyg.client.processor.InPlaceProcessor;
 import com.axeiya.stillcollab.wysiwyg.client.processor.Processor;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.event.dom.client.HasFocusHandlers;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -15,7 +16,9 @@ public interface Surface extends HasSelectionChangeHandlers, HasEnterKeyPressedH
     HasHotKeyPressedHandlers, HasSelectedSurfaceChangeHandlers, IsWidget, HasValue<String>,
     HasFocusHandlers {
 
-  Selection getSelection();
+  SurfaceSelection getSelection();
+  
+  void setSelection(Range range);
 
   void notifyUpdate();
 

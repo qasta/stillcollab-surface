@@ -2,7 +2,7 @@ package com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.text;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.BlockInserter;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
@@ -24,7 +24,7 @@ public class DivInserter extends BlockInserter<DivElement> {
     private static final DivElement emptyElement = Document.get().createDivElement();
 
     @Override
-    public void onAction(DivElement element, Selection selection) {
+    public void onAction(DivElement element, SurfaceSelection selection) {
       if (!DOMUtil.hasStrongNode(element)) {
         element.appendChild(DOMUtil.createFocusBr());
       }

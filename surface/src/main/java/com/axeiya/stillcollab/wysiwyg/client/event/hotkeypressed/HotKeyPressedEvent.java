@@ -1,6 +1,7 @@
 package com.axeiya.stillcollab.wysiwyg.client.event.hotkeypressed;
 
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.event.shared.GwtEvent;
 
 public class HotKeyPressedEvent extends GwtEvent<HotKeyPressedHandler> {
@@ -14,7 +15,7 @@ public class HotKeyPressedEvent extends GwtEvent<HotKeyPressedHandler> {
     return TYPE;
   }
 
-  private Selection selection;
+  private SurfaceSelection selection;
   private boolean isAltKey;
   private boolean isCtrlKey;
   private boolean isMetaKey;
@@ -22,7 +23,7 @@ public class HotKeyPressedEvent extends GwtEvent<HotKeyPressedHandler> {
   private boolean handled = false;
   private boolean preventDefault = false;
 
-  public HotKeyPressedEvent(Selection selection, boolean isAltKey, boolean isCtrlKey,
+  public HotKeyPressedEvent(SurfaceSelection selection, boolean isAltKey, boolean isCtrlKey,
       boolean isMetaKey, int keyCode) {
     super();
     this.selection = selection;
@@ -32,7 +33,7 @@ public class HotKeyPressedEvent extends GwtEvent<HotKeyPressedHandler> {
     this.keyCode = keyCode;
   }
 
-  public Selection getSelection() {
+  public SurfaceSelection getSelection() {
     return selection;
   }
 
@@ -78,7 +79,7 @@ public class HotKeyPressedEvent extends GwtEvent<HotKeyPressedHandler> {
     return getType();
   }
 
-  public static HotKeyPressedEvent fire(HasHotKeyPressedHandlers source, Selection selection,
+  public static HotKeyPressedEvent fire(HasHotKeyPressedHandlers source, SurfaceSelection selection,
       boolean isAltKey, boolean isCtrlKey, boolean isMetaKey, int charCode) {
     HotKeyPressedEvent event =
         new HotKeyPressedEvent(selection, isAltKey, isCtrlKey, isMetaKey, charCode);

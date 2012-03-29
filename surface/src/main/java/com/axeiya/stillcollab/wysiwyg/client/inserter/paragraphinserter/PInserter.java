@@ -7,7 +7,7 @@ import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.EnterKeyPress
 import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.EnterKeyPressedHandler;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -27,7 +27,7 @@ public class PInserter extends ParagraphInserter<ParagraphElement> implements
     private static final ParagraphElement emptyElement = Document.get().createPElement();
 
     @Override
-    public void onAction(ParagraphElement element, Selection selection) {
+    public void onAction(ParagraphElement element, SurfaceSelection selection) {
       if (!DOMUtil.hasStrongNode(element)) {
         element.appendChild(DOMUtil.createFocusBr());
       }
@@ -48,7 +48,7 @@ public class PInserter extends ParagraphInserter<ParagraphElement> implements
   }
 
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
     return true;
   }
 
@@ -69,7 +69,7 @@ public class PInserter extends ParagraphInserter<ParagraphElement> implements
 
   @Override
   public void onEnterKeyPressed(EnterKeyPressedEvent event) {
-    Range range = event.getSelection().getRange();
+    Range range = event.getSelection().getSelection().getRange();
     Node startNode = range.getStartContainer();
     Element ancestor = getCommonMatchingAncestor(event.getSelection());
     // Si le curseur est à la fin du noeud et que l'enter n'a pas encore été intercepté
@@ -82,7 +82,7 @@ public class PInserter extends ParagraphInserter<ParagraphElement> implements
         // this.action.doAction(as(newParagraph), event.getSelection());
         range.setStart(newParagraph, 0);
         range.setEnd(newParagraph, 0);
-        event.getSelection().setSingleRange(range);
+        event.getSelection().getAssociatedSurface().setSelection(range);
       } else {
         Element br;
         if (ancestor.getLastChild().getNodeType() == Node.ELEMENT_NODE
@@ -97,7 +97,7 @@ public class PInserter extends ParagraphInserter<ParagraphElement> implements
         ancestor.appendChild(br.cloneNode(false));
         range.setStart(emptyText, 0);
         range.setEnd(emptyText, 0);
-        event.getSelection().setSingleRange(range);
+        event.getSelection().getAssociatedSurface().setSelection(range);
       }
       event.setHandled(true);
       event.setPreventDefault(true);

@@ -6,6 +6,7 @@ import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -34,9 +35,9 @@ abstract public class InlineInserter<E extends Element> extends Inserter {
     this.invertAction = invertAction;
   }
 
-  private void insert(Selection selection, final Node currentElement, boolean started,
+  private void insert(SurfaceSelection selection, final Node currentElement, boolean started,
       boolean finished, InsertAction<E> action) {
-    Range range = selection.getRange();
+    Range range = selection.getSelection().getRange();
     final Node startNode = range.getStartContainer();
     Document document = startNode.getOwnerDocument();
     int startOffset = range.getStartOffset();
@@ -122,8 +123,8 @@ abstract public class InlineInserter<E extends Element> extends Inserter {
     }
   }
 
-  protected void insert(Selection selection, InsertAction<E> action) {
-    Range range = selection.getRange();
+  protected void insert(SurfaceSelection selection, InsertAction<E> action) {
+    Range range = selection.getSelection().getRange();
 
     final Node startNode = range.getStartContainer();
     int startOffset = range.getStartOffset();
@@ -187,17 +188,17 @@ abstract public class InlineInserter<E extends Element> extends Inserter {
     }
   }
 
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection selection) {
     insert(selection, action);
   }
 
-  public void remove(Selection selection) {
+  public void remove(SurfaceSelection selection) {
     insert(selection, invertAction);
   }
 
-  private boolean check(Selection selection, Node currentElement, boolean started, boolean finished) {
+  private boolean check(SurfaceSelection selection, Node currentElement, boolean started, boolean finished) {
 
-    Range range = selection.getRange();
+    Range range = selection.getSelection().getRange();
     Node startNode = range.getStartContainer();
     int startOffset = range.getStartOffset();
     Node endNode = range.getEndContainer();
@@ -249,11 +250,14 @@ abstract public class InlineInserter<E extends Element> extends Inserter {
   }
 
   @Override
-  public boolean isSelectionAssignee(Selection selection) {
-    Range range = selection.getRange();
+  public boolean isSelectionAssignee(SurfaceSelection selection) {
+    Range range = selection.getSelection().getRange();
     Node startNode = range.getStartContainer();
     Node endNode = range.getEndContainer();
     Element ancestor = (Element) range.getCommonAncestorContainer();
+    if(ancestor == null) {
+      return false;
+    }
     if (ancestor.equals(startNode) || ancestor.equals(endNode)) {
       ancestor = startNode.getParentElement();
     }

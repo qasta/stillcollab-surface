@@ -7,7 +7,7 @@ import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.EnterKeyPress
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.BlockInserter;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
@@ -21,8 +21,8 @@ public abstract class ListInserter<E extends Element> extends BlockInserter<E> i
 
   abstract protected List<String> getTagCollection();
 
-  public void remove(Selection selection) {
-    Range range = selection.getRange();
+  public void remove(SurfaceSelection selection) {
+    Range range = selection.getSelection().getRange();
 
     Element ancestor = getCommonMatchingAncestor(selection);
     if (ancestor != null && ancestor.getParentElement() != null) {
@@ -71,7 +71,7 @@ public abstract class ListInserter<E extends Element> extends BlockInserter<E> i
   }
 
   @Override
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection selection) {
     // on détermine si on est dans une liste d'un autre type, et si elle est vide
     Element commonAncestor = getAllMatchingAncestor(selection);
     if (commonAncestor != null
@@ -93,8 +93,8 @@ public abstract class ListInserter<E extends Element> extends BlockInserter<E> i
     }
   }
 
-  protected Element getAllMatchingAncestor(Selection selection) {
-    Element ancestor = (Element) selection.getRange().getCommonAncestorContainer();
+  protected Element getAllMatchingAncestor(SurfaceSelection selection) {
+    Element ancestor = (Element) selection.getSelection().getRange().getCommonAncestorContainer();
     return DOMUtil.getFirstAncestorInTypes(ancestor, getTagCollection());
   }
 

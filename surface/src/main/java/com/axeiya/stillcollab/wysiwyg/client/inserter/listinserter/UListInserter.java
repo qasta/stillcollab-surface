@@ -5,7 +5,7 @@ import java.util.List;
 import com.axeiya.stillcollab.wysiwyg.client.event.hotkeypressed.HotKeyPressedEvent;
 import com.axeiya.stillcollab.wysiwyg.client.event.hotkeypressed.HotKeyPressedHandler;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.UListElement;
@@ -50,7 +50,7 @@ public class UListInserter extends ListInserter<UListElement> implements HotKeyP
   public void onHotKeyPressed(HotKeyPressedEvent event) {
     if (event.isCtrlKey() && event.getKeyCode() == 76) {
       // Ctrl+l
-      Selection selection = event.getSelection();
+      SurfaceSelection selection = event.getSelection();
       if (isSelectionAssignee(selection)) {
         remove(selection);
       } else {

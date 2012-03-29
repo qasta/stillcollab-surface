@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.inlineinserter.InlineInserter;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
@@ -28,7 +28,7 @@ public class UnderlineInserter extends InlineInserter<Element> {
     private static final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
-    public void onAction(Element element, Selection selection) {
+    public void onAction(Element element, SurfaceSelection selection) {
       element.getStyle().setTextDecoration(TextDecoration.UNDERLINE);
     }
 
@@ -42,7 +42,7 @@ public class UnderlineInserter extends InlineInserter<Element> {
     private static final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
-    public void onAction(Element element, Selection selection) {
+    public void onAction(Element element, SurfaceSelection selection) {
       element.getStyle().setTextDecoration(TextDecoration.NONE);
     }
 
@@ -63,7 +63,7 @@ public class UnderlineInserter extends InlineInserter<Element> {
   }
 
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
     String textDecoration = "";
     while ((textDecoration == null || textDecoration.isEmpty()) && matchingAncestor != null) {
       textDecoration = matchingAncestor.getStyle().getTextDecoration();
