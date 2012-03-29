@@ -2,6 +2,7 @@ package com.axeiya.stillcollab.wysiwyg.client.inserter.tableinserter;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
@@ -12,7 +13,8 @@ import com.google.gwt.dom.client.TableRowElement;
 public class TableColumnInserter extends Inserter {
 
   @Override
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection surfaceSelection) {
+    Selection selection = surfaceSelection.getSelection();
     // on détermine à quel endroit on doit insérer la colonne
     Node endNode = selection.getRange().getEndContainer();
     Node actualCell = DOMUtil.getFirstAncestorInTypes(endNode, TableInserter.CELL_TAGS);
@@ -72,7 +74,8 @@ public class TableColumnInserter extends Inserter {
   }
 
   @Override
-  public void remove(Selection selection) {
+  public void remove(SurfaceSelection surfaceSelection) {
+    Selection selection = surfaceSelection.getSelection();
     Node endNode = selection.getRange().getEndContainer();
     Node actualCell = DOMUtil.getFirstAncestorInTypes(endNode, TableInserter.CELL_TAGS);
     int index = getColumnIndex(actualCell);
@@ -116,15 +119,15 @@ public class TableColumnInserter extends Inserter {
   }
 
   @Override
-  public boolean isSelectionAssignee(Selection selection) {
+  public boolean isSelectionAssignee(SurfaceSelection selection) {
     Node ancestor =
-        DOMUtil.getFirstAncestorOfType(selection.getRange().getStartContainer(),
+        DOMUtil.getFirstAncestorOfType(selection.getSelection().getRange().getStartContainer(),
             TableInserter.TABLE_TAG);
     return ancestor != null;
   }
 
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
     return true;
   }
 

@@ -2,7 +2,7 @@ package com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.text;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.BlockInserter;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -24,7 +24,7 @@ public class QuoteInserter extends BlockInserter<QuoteElement> {
     private static final QuoteElement emptyElement = Document.get().createBlockQuoteElement();
 
     @Override
-    public void onAction(QuoteElement element, Selection selection) {
+    public void onAction(QuoteElement element, SurfaceSelection selection) {
       if (!DOMUtil.hasStrongNode(element)) {
         element.appendChild(DOMUtil.createFocusBr());
       }

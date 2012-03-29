@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -17,7 +17,7 @@ public abstract class ListInsertAction<E extends Element> extends InsertAction<E
   abstract protected List<String> getTagCollection();
 
   @Override
-  public void onAction(E element, Selection selection) {
+  public void onAction(E element, SurfaceSelection selection) {
     // Dans le cas de liste imbriquées, on vérifie que l'élément ul/ol n'est pas dans un li
     Element parent = DOMUtil.getFirstAncestorOfType(element, "li");
     if (parent != null) {
@@ -64,15 +64,15 @@ public abstract class ListInsertAction<E extends Element> extends InsertAction<E
     if (!DOMUtil.hasStrongNode(li)) {
       Text text = Document.get().createTextNode(" ");
       li.appendChild(text);
-      Range range = selection.getRange();
+      Range range = selection.getSelection().getRange();
       range.setStart(text, 0);
       range.setEnd(text, 0);
-      selection.setSingleRange(range);
+      selection.getAssociatedSurface().setSelection(range);
     }
   }
 
   @Override
-  public void onRevert(Element element, Selection selection) {
+  public void onRevert(Element element, SurfaceSelection selection) {
     // on supprime les li si on n'est plus dans une liste
     if (element.getParentElement() == null
         || !getTagCollection().contains(element.getParentElement().getTagName().toLowerCase())) {
@@ -95,7 +95,7 @@ public abstract class ListInsertAction<E extends Element> extends InsertAction<E
     while (child != null) {
       nextSibling = child.getNextSibling();
       child.removeFromParent();
-      //On supprime les P
+      // On supprime les P
       if (child.getNodeType() == Node.ELEMENT_NODE && child.getNodeName().equalsIgnoreCase("p")) {
         moveContent((Element) child, to);
       } else {

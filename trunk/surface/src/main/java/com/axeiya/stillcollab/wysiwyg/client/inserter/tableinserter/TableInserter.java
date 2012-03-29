@@ -11,6 +11,7 @@ import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.BlockInserte
 import com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter.PInserter;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -38,7 +39,7 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
     }
 
     @Override
-    protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+    protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
       return TableInserter.this.adjustSelectionAssignee(matchingAncestor, selection);
     }
 
@@ -47,7 +48,7 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
   protected class TableInsertAction extends InsertAction<TableElement> {
 
     @Override
-    public void onAction(TableElement element, Selection selection) {
+    public void onAction(TableElement element, SurfaceSelection selection) {
       TableConfig config = TableInserter.this.currentConfig;
       element.setWidth(config.getWidth() + config.getWidthUnit().getType());
       element.setBorder(1);
@@ -102,7 +103,7 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
     blockInserter = new LocalBlockInserter(action);
   }
 
-  public void insert(Selection selection, TableConfig config) {
+  public void insert(SurfaceSelection selection, TableConfig config) {
     currentConfig = config;
     selection = getNextRootRange(selection);
     blockInserter.insert(selection);
@@ -113,7 +114,7 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
    */
   @Deprecated
   @Override
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection selection) {
     throw new IllegalArgumentException("Use insert(Selection,String) instead");
   }
 
@@ -124,8 +125,8 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
    * @param selection
    * @return
    */
-  protected Selection getNextRootRange(Selection selection) {
-    Node base = selection.getRange().getCommonAncestorContainer();
+  protected SurfaceSelection getNextRootRange(SurfaceSelection selection) {
+    Node base = selection.getSelection().getRange().getCommonAncestorContainer();
     Element ancestor;
     if (base.getNodeType() == Node.TEXT_NODE) {
       ancestor = base.getParentElement();
@@ -146,8 +147,8 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
           child = child.getNextSibling();
         }
         // on place la sélection après cet ancetre
-        selection.getRange().setStart(ancestor.getParentElement(), offset);
-        selection.getRange().setEnd(ancestor.getParentElement(), offset);
+        selection.getSelection().getRange().setStart(ancestor.getParentElement(), offset);
+        selection.getSelection().getRange().setEnd(ancestor.getParentElement(), offset);
       }
     }
     return selection;
@@ -158,21 +159,21 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
   }
 
   @Override
-  public void remove(Selection selection) {
+  public void remove(SurfaceSelection selection) {
     Node ancestor =
-        DOMUtil.getFirstAncestorOfType(selection.getRange().getStartContainer(), TABLE_TAG);
+        DOMUtil.getFirstAncestorOfType(selection.getSelection().getRange().getStartContainer(), TABLE_TAG);
     if (ancestor != null) {
       ancestor.removeFromParent();
     }
   }
 
   @Override
-  public boolean isSelectionAssignee(Selection selection) {
+  public boolean isSelectionAssignee(SurfaceSelection selection) {
     return blockInserter.isSelectionAssignee(selection);
   }
 
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
     return true;
   }
 
@@ -196,16 +197,16 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
 
   @Override
   public void onEnterKeyPressed(EnterKeyPressedEvent event) {
-    if (!event.isHandled() && isInLastLine(event.getSelection().getRange().getStartContainer())) {
+    if (!event.isHandled() && isInLastLine(event.getSelection().getSelection().getRange().getStartContainer())) {
       Element table =
-          DOMUtil.getFirstAncestorOfType(event.getSelection().getRange().getStartContainer(),
+          DOMUtil.getFirstAncestorOfType(event.getSelection().getSelection().getRange().getStartContainer(),
               TABLE_TAG);
       Element paragraph = PInserter.createEmptyParagraph();
       table.getParentElement().insertAfter(paragraph, table);
       Range range = Range.createRange();
       range.setStart(paragraph, 0);
       range.setEnd(paragraph, 0);
-      event.getSelection().setSingleRange(range);
+      event.getSelection().getAssociatedSurface().setSelection(range);
       event.setHandled(true);
       event.setPreventDefault(true);
     }

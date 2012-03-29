@@ -4,6 +4,7 @@ import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -29,7 +30,7 @@ abstract public class BlockInserter<E extends Element> extends Inserter {
     this.action = action;
   }
 
-  public void remove(Selection selection) {
+  public void remove(SurfaceSelection selection) {
     Element ancestor = getCommonMatchingAncestor(selection);
     if (ancestor != null && ancestor.getParentElement() != null) {
       // On rattache les enfants de ancestor à son parent
@@ -48,8 +49,8 @@ abstract public class BlockInserter<E extends Element> extends Inserter {
     }
   }
 
-  public void insert(final Selection selection) {
-    final Range range = selection.getRange();
+  public void insert(final SurfaceSelection selection) {
+    final Range range = selection.getSelection().getRange();
 
     Node startNode = range.getStartContainer();
     Document document = startNode.getOwnerDocument();
@@ -222,7 +223,7 @@ abstract public class BlockInserter<E extends Element> extends Inserter {
       @Override
       public void execute() {
         range.selectNode(container);
-        selection.setSingleRange(range);
+        selection.getAssociatedSurface().setSelection(range);
         action.doAction(as(container), selection);
       }
     });
@@ -235,7 +236,7 @@ abstract public class BlockInserter<E extends Element> extends Inserter {
    * @return Vrai si la sélection est assignée, faux si elle ne l'est pas (donc assignable)
    */
   @Override
-  public boolean isSelectionAssignee(Selection selection) {
+  public boolean isSelectionAssignee(SurfaceSelection selection) {
     Element ancestor = getCommonMatchingAncestor(selection);
     if (ancestor != null) {
       return adjustSelectionAssignee(ancestor, selection);
@@ -243,8 +244,8 @@ abstract public class BlockInserter<E extends Element> extends Inserter {
     return false;
   }
 
-  protected Element getCommonMatchingAncestor(Selection selection) {
-    Element ancestor = (Element) selection.getRange().getCommonAncestorContainer();
+  protected Element getCommonMatchingAncestor(SurfaceSelection selection) {
+    Element ancestor = (Element) selection.getSelection().getRange().getCommonAncestorContainer();
     return DOMUtil.getFirstAncestorOfType(ancestor, action.getEmptyElement().getTagName());
   }
 
@@ -257,7 +258,7 @@ abstract public class BlockInserter<E extends Element> extends Inserter {
    * @return Vrai si l'élément est bien assigné, faut sinon (donc assignable)
    */
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
     return true;
   }
 

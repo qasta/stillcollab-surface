@@ -20,9 +20,9 @@ abstract public class AbstractControl implements SelectionChangeHandler,
         if (currentSurface != null
             && currentSurface.isEditable()
             && currentSurface.getElement().isOrHasChild(
-                currentSurface.getSelection().getRange().getStartContainer())
+                currentSurface.getSelection().getSelection().getRange().getStartContainer())
             && currentSurface.getElement().isOrHasChild(
-                currentSurface.getSelection().getRange().getEndContainer())) {
+                currentSurface.getSelection().getSelection().getRange().getEndContainer())) {
           command.execute();
           currentSurface.notifyUpdate();
         }

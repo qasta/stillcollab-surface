@@ -17,6 +17,7 @@ import com.axeiya.stillcollab.wysiwyg.client.processor.ParagraphProcessor;
 import com.axeiya.stillcollab.wysiwyg.client.processor.Processor;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.axeiya.stillcollab.wysiwyg.client.util.DelayedScheduler;
 import com.google.gwt.dom.client.BodyElement;
@@ -51,7 +52,7 @@ public class ContentEditableSurface extends Widget implements Surface {
     public void run() {
       if (currentRange == null || !Selection.getSelection().getRange().equivalent(currentRange)) {
         currentRange = Selection.getSelection().getRange();
-        SelectionChangeEvent.fire(ContentEditableSurface.this, Selection.getSelection());
+        SelectionChangeEvent.fire(ContentEditableSurface.this, getSelection());
       }
     }
   };
@@ -108,7 +109,7 @@ public class ContentEditableSurface extends Widget implements Surface {
         valueChangeTimer.schedule(1000);
         if (event.getKeyCode() == KeyCodes.KEY_ENTER) {
           EnterKeyPressedEvent enter =
-              EnterKeyPressedEvent.fire(this, Selection.getSelection(), event.getAltKey(), event
+              EnterKeyPressedEvent.fire(this, getSelection(), event.getAltKey(), event
                   .getCtrlKey(), event.getMetaKey());
           if (enter.isPreventDefault()) {
             event.preventDefault();
@@ -116,7 +117,7 @@ public class ContentEditableSurface extends Widget implements Surface {
         } else if (event.getCtrlKey()) {
           // GWT.log("keycode : " + event.getKeyCode());
           HotKeyPressedEvent hotKey =
-              HotKeyPressedEvent.fire(this, Selection.getSelection(), event.getAltKey(), event
+              HotKeyPressedEvent.fire(this, getSelection(), event.getAltKey(), event
                   .getCtrlKey(), event.getMetaKey(), event.getKeyCode());
           if (hotKey.isPreventDefault()) {
             event.preventDefault();
@@ -145,10 +146,10 @@ public class ContentEditableSurface extends Widget implements Surface {
         break;
       case Event.ONPASTE:
         // On conserve la sélection courante
-        getSelection().getRange().deleteContents();
-        getSelection().getRange().collapse(true);
-        final Node startNode = getSelection().getRange().getStartContainer();
-        final int offset = getSelection().getRange().getStartOffset();
+        getSelection().getSelection().getRange().deleteContents();
+        getSelection().getSelection().getRange().collapse(true);
+        final Node startNode = getSelection().getSelection().getRange().getStartContainer();
+        final int offset = getSelection().getSelection().getRange().getStartOffset();
 
         final DivElement fragment = Document.get().createDivElement();
         fragment.getStyle().setDisplay(Display.NONE);
@@ -185,10 +186,10 @@ public class ContentEditableSurface extends Widget implements Surface {
               nextNode.setNodeValue(after);
               startNode.getParentElement().insertAfter(par, startNode);
               startNode.getParentElement().insertAfter(nextNode, par);
-              getSelection().getRange().setStart(nextNode, 0);
+              getSelection().getSelection().getRange().setStart(nextNode, 0);
             } else {
               startNode.insertBefore(par, startNode.getChild(offset));
-              getSelection().getRange().setStart(startNode, offset + 1);
+              getSelection().getSelection().getRange().setStart(startNode, offset + 1);
             }
           }
         });
@@ -234,11 +235,18 @@ public class ContentEditableSurface extends Widget implements Surface {
   }
 
   @Override
-  public Selection getSelection() {
+  public SurfaceSelection getSelection() {
     if (!hasFocus) {
       Selection.getSelection().setSingleRange(currentRange);
     }
-    return Selection.getSelection();
+    SurfaceSelection selection = new SurfaceSelection(Selection.getSelection(), this);
+    return selection;
+  }
+  
+  @Override
+  public void setSelection(Range range) {
+    currentRange = range;
+    Selection.getSelection().setSingleRange(range);
   }
 
   @Override

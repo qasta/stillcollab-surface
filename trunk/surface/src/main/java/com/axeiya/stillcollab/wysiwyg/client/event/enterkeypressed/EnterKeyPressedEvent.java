@@ -1,6 +1,7 @@
 package com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed;
 
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.event.shared.GwtEvent;
 
 public class EnterKeyPressedEvent extends GwtEvent<EnterKeyPressedHandler> {
@@ -14,14 +15,14 @@ public class EnterKeyPressedEvent extends GwtEvent<EnterKeyPressedHandler> {
     return TYPE;
   }
 
-  private Selection selection;
+  private SurfaceSelection selection;
   private boolean isAltKey;
   private boolean isCtrlKey;
   private boolean isMetaKey;
   private boolean handled = false;
   private boolean preventDefault = false;
 
-  public EnterKeyPressedEvent(Selection selection, boolean isAltKey, boolean isCtrlKey,
+  public EnterKeyPressedEvent(SurfaceSelection selection, boolean isAltKey, boolean isCtrlKey,
       boolean isMetaKey) {
     super();
     this.selection = selection;
@@ -30,7 +31,7 @@ public class EnterKeyPressedEvent extends GwtEvent<EnterKeyPressedHandler> {
     this.isMetaKey = isMetaKey;
   }
 
-  public Selection getSelection() {
+  public SurfaceSelection getSelection() {
     return selection;
   }
 
@@ -72,7 +73,7 @@ public class EnterKeyPressedEvent extends GwtEvent<EnterKeyPressedHandler> {
     return getType();
   }
 
-  public static EnterKeyPressedEvent fire(HasEnterKeyPressedHandlers source, Selection selection,
+  public static EnterKeyPressedEvent fire(HasEnterKeyPressedHandlers source, SurfaceSelection selection,
       boolean isAltKey, boolean isCtrlKey, boolean isMetaKey) {
     EnterKeyPressedEvent event =
         new EnterKeyPressedEvent(selection, isAltKey, isCtrlKey, isMetaKey);

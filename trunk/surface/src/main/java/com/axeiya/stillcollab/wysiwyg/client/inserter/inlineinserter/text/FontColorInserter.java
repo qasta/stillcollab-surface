@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.inlineinserter.InlineInserter;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
@@ -27,9 +27,8 @@ public class FontColorInserter extends InlineInserter<Element> {
     private final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
-    public void onAction(Element element, Selection selection) {
-      if (FontColorInserter.this.currentConfig.getColor().equals(
-          FontColorConfig.DEFAULT_COLOR)) {
+    public void onAction(Element element, SurfaceSelection selection) {
+      if (FontColorInserter.this.currentConfig.getColor().equals(FontColorConfig.DEFAULT_COLOR)) {
         element.getStyle().clearColor();
       } else {
         element.getStyle().setColor(FontColorInserter.this.currentConfig.getColor());
@@ -46,7 +45,7 @@ public class FontColorInserter extends InlineInserter<Element> {
     private static final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
-    public void onAction(Element element, Selection selection) {
+    public void onAction(Element element, SurfaceSelection selection) {
     }
 
     @Override
@@ -73,14 +72,14 @@ public class FontColorInserter extends InlineInserter<Element> {
     }
   }
 
-  public void insert(Selection selection, FontColorConfig config) {
+  public void insert(SurfaceSelection selection, FontColorConfig config) {
     currentConfig = config;
     super.insert(selection);
   }
 
   @Deprecated
   @Override
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection selection) {
     throw new IllegalArgumentException("Use insert(Selection,FontColorConfig) instead");
   }
 
@@ -95,8 +94,8 @@ public class FontColorInserter extends InlineInserter<Element> {
   }
 
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
-    //TODO : à implanter en permettant de retourner la valeur de la couleur
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
+    // TODO : à implanter en permettant de retourner la valeur de la couleur
     return false;
   }
 

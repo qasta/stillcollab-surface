@@ -3,7 +3,7 @@ package com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter;
 import java.util.List;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -19,7 +19,7 @@ abstract public class HInserter extends ParagraphInserter<HeadingElement> {
     }
 
     @Override
-    public void onAction(HeadingElement element, Selection selection) {
+    public void onAction(HeadingElement element, SurfaceSelection selection) {
       if (!DOMUtil.hasStrongNode(element)) {
         element.appendChild(DOMUtil.createFocusBr());
       }
@@ -40,7 +40,7 @@ abstract public class HInserter extends ParagraphInserter<HeadingElement> {
   }
 
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
     return true;
   }
 

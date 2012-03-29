@@ -5,11 +5,10 @@ import java.util.List;
 
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.inlineinserter.InlineInserter;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.dom.client.Style.FontStyle;
 
 public class FontFamilyInserter extends InlineInserter<Element> {
 
@@ -28,7 +27,7 @@ public class FontFamilyInserter extends InlineInserter<Element> {
     private final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
-    public void onAction(Element element, Selection selection) {
+    public void onAction(Element element, SurfaceSelection selection) {
       if (FontFamilyInserter.this.currentConfig.getFontName().equals(
           FontFamilyConfig.DEFAULT_FONTNAME)) {
         element.getStyle().clearProperty("fontFamily");
@@ -48,7 +47,7 @@ public class FontFamilyInserter extends InlineInserter<Element> {
     private static final SpanElement emptyElement = Document.get().createSpanElement();
 
     @Override
-    public void onAction(Element element, Selection selection) {
+    public void onAction(Element element, SurfaceSelection selection) {
     }
 
     @Override
@@ -75,14 +74,14 @@ public class FontFamilyInserter extends InlineInserter<Element> {
     }
   }
 
-  public void insert(Selection selection, FontFamilyConfig config) {
+  public void insert(SurfaceSelection selection, FontFamilyConfig config) {
     currentConfig = config;
     super.insert(selection);
   }
 
   @Deprecated
   @Override
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection selection) {
     throw new IllegalArgumentException("Use insert(Selection,FontFamilyConfig) instead");
   }
 
@@ -97,8 +96,8 @@ public class FontFamilyInserter extends InlineInserter<Element> {
   }
 
   @Override
-  protected boolean adjustSelectionAssignee(Element matchingAncestor, Selection selection) {
-    //TODO : à implanter en retournant le nom de la police
+  protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
+    // TODO : à implanter en retournant le nom de la police
     return false;
   }
 

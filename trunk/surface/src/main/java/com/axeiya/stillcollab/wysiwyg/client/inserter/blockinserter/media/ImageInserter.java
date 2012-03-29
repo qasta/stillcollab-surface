@@ -3,6 +3,7 @@ package com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.media;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.action.InsertAction;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.BlockInserter;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
+import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.axeiya.stillcollab.wysiwyg.client.util.DOMUtil;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -28,7 +29,7 @@ public class ImageInserter extends BlockInserter<ImageElement> {
   protected class ImageInsertAction extends InsertAction<ImageElement> {
 
     @Override
-    public void onAction(ImageElement element, Selection selection) {
+    public void onAction(ImageElement element, SurfaceSelection selection) {
       ImageConfig config = ImageInserter.this.currentConfig;
       element.setSrc(config.getUrl());
       if (config.getWidth() > -1) {
@@ -89,10 +90,10 @@ public class ImageInserter extends BlockInserter<ImageElement> {
     return ImageElement.as(element);
   }
 
-  public void insert(Selection selection, ImageConfig config) {
+  public void insert(SurfaceSelection selection, ImageConfig config) {
     currentConfig = config;
-    selection.getRange().deleteContents();
-    selection.getRange().collapse(true);
+    selection.getSelection().getRange().deleteContents();
+    selection.getSelection().getRange().collapse(true);
     super.insert(selection);
   }
 
@@ -101,13 +102,13 @@ public class ImageInserter extends BlockInserter<ImageElement> {
    */
   @Deprecated
   @Override
-  public void insert(Selection selection) {
+  public void insert(SurfaceSelection selection) {
     throw new IllegalArgumentException("Use insert(Selection,ImageConfig) instead");
   }
 
   @Override
-  public boolean isSelectionAssignee(Selection selection) {
-    Node ancestor = selection.getRange().getCommonAncestorContainer();
+  public boolean isSelectionAssignee(SurfaceSelection selection) {
+    Node ancestor = selection.getSelection().getRange().getCommonAncestorContainer();
     if (ancestor != null && ancestor.getNodeType() == Node.ELEMENT_NODE) {
       Element img = DOMUtil.getFirstChildOfType((Element) ancestor, "img");
       return img != null;
@@ -115,8 +116,8 @@ public class ImageInserter extends BlockInserter<ImageElement> {
     return false;
   }
 
-  public ImageConfig getCurrentConfig(Selection selection) {
-    Node ancestor = selection.getRange().getCommonAncestorContainer();
+  public ImageConfig getCurrentConfig(SurfaceSelection selection) {
+    Node ancestor = selection.getSelection().getRange().getCommonAncestorContainer();
     if (ancestor != null && ancestor.getNodeType() == Node.ELEMENT_NODE) {
       ImageElement img = (ImageElement) DOMUtil.getFirstChildOfType((Element) ancestor, "img");
       if (img != null) {
@@ -138,7 +139,7 @@ public class ImageInserter extends BlockInserter<ImageElement> {
 
   }
 
-  public void updateConfig(Selection selection, ImageConfig config) {
+  public void updateConfig(SurfaceSelection selection, ImageConfig config) {
     ImageElement img = (ImageElement) getCommonMatchingAncestor(selection);
     if (img != null) {
       currentConfig = config;
