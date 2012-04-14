@@ -1,21 +1,31 @@
 package com.axeiya.stillcollab.wysiwyg.client.control;
 
+import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeEvent;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
+import com.axeiya.stillcollab.wysiwyg.client.widget.DecoratedToggleButton;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AbstractToggleControl extends AbstractControl implements ClickHandler, IsWidget {
 
-  private ToggleButton ui;
+  private DecoratedToggleButton ui;
   private Inserter inserter;
 
-  public AbstractToggleControl(Inserter inserter) {
-    ui = new ToggleButton("T");
+  public AbstractToggleControl(Inserter inserter, Image icon, ControlResources resources) {
+    ui = new DecoratedToggleButton(icon);
+    ui.setStyleName(resources.button().surfacePushButton());
+    this.inserter = inserter;
+    ui.addClickHandler(this);
+  }
+
+  public AbstractToggleControl(Inserter inserter, String text) {
+    ui = new DecoratedToggleButton(text);
     this.inserter = inserter;
     ui.addClickHandler(this);
   }

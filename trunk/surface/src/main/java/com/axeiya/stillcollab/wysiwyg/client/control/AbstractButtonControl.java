@@ -1,21 +1,24 @@
 package com.axeiya.stillcollab.wysiwyg.client.control;
 
+import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeEvent;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
+import com.axeiya.stillcollab.wysiwyg.client.widget.DecoratedPushButton;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AbstractButtonControl extends AbstractControl implements ClickHandler, IsWidget {
 
-  private Button ui;
+  private DecoratedPushButton ui;
   private Inserter inserter;
 
-  public AbstractButtonControl(Inserter inserter) {
-    ui = new Button("C");
+  public AbstractButtonControl(Inserter inserter, Image icon, ControlResources resources) {
+    ui = new DecoratedPushButton(icon);
+    ui.setStyleName(resources.button().surfacePushButton());
     this.inserter = inserter;
     ui.addClickHandler(this);
   }
@@ -34,7 +37,7 @@ public class AbstractButtonControl extends AbstractControl implements ClickHandl
   public void onSelectionChange(SelectionChangeEvent event) {
   }
 
-  public Button getUi() {
+  public DecoratedPushButton getUi() {
     return ui;
   }
 

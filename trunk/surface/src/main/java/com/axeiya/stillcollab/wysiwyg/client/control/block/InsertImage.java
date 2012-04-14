@@ -1,26 +1,38 @@
 package com.axeiya.stillcollab.wysiwyg.client.control.block;
 
 import com.axeiya.stillcollab.wysiwyg.client.control.AbstractControl;
+import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeEvent;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.media.ImageInserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.media.ImageInserter.ImageConfig;
+import com.axeiya.stillcollab.wysiwyg.client.widget.DecoratedPushButton;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class InsertImage extends AbstractControl implements ClickHandler, IsWidget {
 
-  private Button ui;
+  private ControlResources resources;
+
+  private DecoratedPushButton ui;
   private ImageInserter inserter;
   private boolean imgSelected = false;
 
   public InsertImage() {
-    ui = new Button("Img...");
+    this(ControlResources.Util.getInstance());
+  }
+
+  public InsertImage(ControlResources resources) {
+    this.resources = resources;
+
+    ui = new DecoratedPushButton(new Image(resources.image()));
+    ui.setStyleName(resources.button().surfacePushButton());
     inserter = new ImageInserter();
     ui.addClickHandler(this);
   }
@@ -63,7 +75,7 @@ public class InsertImage extends AbstractControl implements ClickHandler, IsWidg
     }
   }
 
-  public Button getUi() {
+  public PushButton getUi() {
     return ui;
   }
 

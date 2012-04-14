@@ -6,7 +6,6 @@ import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.text.PreInse
 public class Pre extends AbstractToggleControl {
 
   public Pre() {
-    super(new PreInserter());
-    getUi().setText("Pre");
+    super(new PreInserter(), "Pre");
   }
 }
