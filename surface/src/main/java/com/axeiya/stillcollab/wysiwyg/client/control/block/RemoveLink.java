@@ -1,24 +1,31 @@
 package com.axeiya.stillcollab.wysiwyg.client.control.block;
 
 import com.axeiya.stillcollab.wysiwyg.client.control.AbstractControl;
+import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeEvent;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.text.LinkInserter;
+import com.axeiya.stillcollab.wysiwyg.client.widget.DecoratedPushButton;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 public class RemoveLink extends AbstractControl implements ClickHandler, IsWidget {
 
-  private Button ui;
+  private DecoratedPushButton ui;
   private Inserter inserter;
 
   public RemoveLink() {
+    this(ControlResources.Util.getInstance());
+  }
+
+  public RemoveLink(ControlResources resources) {
     super();
-    ui = new Button("Drop link");
+    ui = new DecoratedPushButton(new Image(resources.dropLink()));
+    ui.setStyleName(resources.button().surfacePushButton());
     inserter = new LinkInserter();
     ui.addClickHandler(this);
   }
@@ -38,7 +45,7 @@ public class RemoveLink extends AbstractControl implements ClickHandler, IsWidge
     ui.setEnabled(inserter.isSelectionAssignee(event.getSelection()));
   }
 
-  public Button getUi() {
+  public DecoratedPushButton getUi() {
     return ui;
   }
 
