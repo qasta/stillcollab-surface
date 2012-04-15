@@ -28,9 +28,9 @@ public class DefaultToolBar extends ToolBar {
     super();
     setStyleName("sc-Wysiwyg-Toolbar");
 
-    add(new HeadlessParagraph());
     add(new UList());
     add(new OList());
+    add(new HeadlessParagraph());
     // add(new Paragraph());
     // add(new Heading1());
     // add(new Heading2());
