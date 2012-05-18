@@ -1,6 +1,7 @@
 package com.axeiya.stillcollab.wysiwyg.client.control.resource;
 
 import com.axeiya.stillcollab.wysiwyg.client.control.resource.css.ButtonCss;
+import com.axeiya.stillcollab.wysiwyg.client.control.resource.css.ToolBarCss;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource.NotStrict;
@@ -16,6 +17,7 @@ public interface ControlResources extends ClientBundle {
       if (instance == null) {
         instance = GWT.create(ControlResources.class);
         instance.button().ensureInjected();
+        instance.toolbar().ensureInjected();
       }
       return instance;
     }
@@ -24,6 +26,10 @@ public interface ControlResources extends ClientBundle {
   @Source("css/button.css")
   @NotStrict
   ButtonCss button();
+
+  @Source("css/toolbar.css")
+  @NotStrict
+  ToolBarCss toolbar();
 
   /*
    * Icon

@@ -6,12 +6,15 @@ import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.widget.DecoratedPushButton;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AbstractButtonControl extends AbstractControl implements ClickHandler, IsWidget {
+public class AbstractButtonControl extends AbstractClickableControl implements ClickHandler,
+    IsWidget {
 
   private DecoratedPushButton ui;
   private Inserter inserter;
@@ -48,6 +51,16 @@ public class AbstractButtonControl extends AbstractControl implements ClickHandl
   @Override
   public Widget asWidget() {
     return ui;
+  }
+
+  @Override
+  public HandlerRegistration addClickHandler(ClickHandler handler) {
+    return ui.addClickHandler(handler);
+  }
+
+  @Override
+  public void fireEvent(GwtEvent<?> event) {
+    ui.fireEvent(event);
   }
 
 }

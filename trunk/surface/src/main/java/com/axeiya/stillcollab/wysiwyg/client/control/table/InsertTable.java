@@ -1,6 +1,6 @@
 package com.axeiya.stillcollab.wysiwyg.client.control.table;
 
-import com.axeiya.stillcollab.wysiwyg.client.control.AbstractControl;
+import com.axeiya.stillcollab.wysiwyg.client.control.AbstractClickableControl;
 import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeEvent;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
@@ -9,13 +9,15 @@ import com.axeiya.stillcollab.wysiwyg.client.inserter.tableinserter.TableInserte
 import com.axeiya.stillcollab.wysiwyg.client.widget.DecoratedPushButton;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
-public class InsertTable extends AbstractControl implements ClickHandler, IsWidget {
+public class InsertTable extends AbstractClickableControl implements ClickHandler, IsWidget {
 
   private DecoratedPushButton ui;
   private TableInserter inserter;
@@ -57,5 +59,15 @@ public class InsertTable extends AbstractControl implements ClickHandler, IsWidg
   @Override
   public Widget asWidget() {
     return ui;
+  }
+
+  @Override
+  public HandlerRegistration addClickHandler(ClickHandler handler) {
+    return ui.addClickHandler(handler);
+  }
+
+  @Override
+  public void fireEvent(GwtEvent<?> event) {
+    ui.fireEvent(event);
   }
 }
