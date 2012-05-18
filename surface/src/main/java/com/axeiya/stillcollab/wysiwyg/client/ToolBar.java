@@ -1,6 +1,7 @@
 package com.axeiya.stillcollab.wysiwyg.client;
 
 import com.axeiya.stillcollab.wysiwyg.client.control.AbstractControl;
+import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.EnterKeyPressedEvent;
 import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.EnterKeyPressedHandler;
 import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.HasEnterKeyPressedHandlers;
@@ -13,6 +14,8 @@ import com.axeiya.stillcollab.wysiwyg.client.event.selectedsurfacechange.Selecte
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.HasSelectionChangeHandlers;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeEvent;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -24,11 +27,23 @@ public class ToolBar extends Composite implements HasHotKeyPressedHandlers, HotK
     SelectionChangeHandler, HasEnterKeyPressedHandlers, EnterKeyPressedHandler {
 
   protected FlowPanel mainPanel;
+  protected FlowPanel firstLine;
+  protected FlowPanel secondLine;
   protected Surface currentSurface;
 
   public ToolBar() {
+    this(ControlResources.Util.getInstance());
+  }
+
+  public ToolBar(ControlResources resources) {
     super();
     mainPanel = new FlowPanel();
+    firstLine = new FlowPanel();
+    firstLine.setStyleName(resources.toolbar().firstLine());
+    mainPanel.add(firstLine);
+    secondLine = new FlowPanel();
+    secondLine.setStyleName(resources.toolbar().secondLine());
+    mainPanel.add(secondLine);
     initWidget(mainPanel);
   }
 
@@ -42,16 +57,38 @@ public class ToolBar extends Composite implements HasHotKeyPressedHandlers, HotK
       addEnterKeyPressedHandler((EnterKeyPressedHandler) w.getInserter());
     }
     if (w instanceof IsWidget) {
-      mainPanel.add((IsWidget) w);
+      firstLine.add((IsWidget) w);
     }
   }
 
+  public void add(final ToolGroup group) {
+    add(group.getMainComponent());
+
+    for (AbstractControl control : group.getSubComponents()) {
+      addSelectionChangeHandler(control);
+      addSelectedSurfaceChangeHandler(control);
+    }
+
+    group.getMainComponent().addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        secondLine.clear();
+        for (AbstractControl control : group.getSubComponents()) {
+          if (control instanceof IsWidget) {
+            secondLine.add((IsWidget) control);
+          }
+        }
+      }
+    });
+  }
+
   public void clear() {
-    mainPanel.clear();
+    firstLine.clear();
+    secondLine.clear();
   }
 
   public boolean remove(Widget w) {
-    return mainPanel.remove(w);
+    return firstLine.remove(w);
   }
 
   public void addManagedSurface(Surface surface) {

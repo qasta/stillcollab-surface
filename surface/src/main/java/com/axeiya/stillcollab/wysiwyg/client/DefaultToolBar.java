@@ -21,6 +21,7 @@ import com.axeiya.stillcollab.wysiwyg.client.control.table.DropColumn;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.DropLine;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.DropTable;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.InsertTable;
+import com.axeiya.stillcollab.wysiwyg.client.control.table.MainTableButton;
 
 public class DefaultToolBar extends ToolBar {
 
@@ -50,11 +51,14 @@ public class DefaultToolBar extends ToolBar {
     // add(new FFArial());
     // add(new FFHelvetica());
     // add(new FFCourrier());
-    add(new InsertTable());
-    add(new DropTable());
-    add(new AddLine());
-    add(new DropLine());
-    add(new AddColumn());
-    add(new DropColumn());
+    ToolGroup tableGroup = new ToolGroup(new MainTableButton());
+    tableGroup.addSubComponent(new InsertTable());
+    tableGroup.addSubComponent(new DropTable());
+    tableGroup.addSubComponent(new AddLine());
+    tableGroup.addSubComponent(new DropLine());
+    tableGroup.addSubComponent(new AddColumn());
+    tableGroup.addSubComponent(new DropColumn());
+    add(tableGroup);
+
   }
 }
