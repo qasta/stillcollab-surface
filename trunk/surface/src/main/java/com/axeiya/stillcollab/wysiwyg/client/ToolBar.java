@@ -2,6 +2,7 @@ package com.axeiya.stillcollab.wysiwyg.client;
 
 import com.axeiya.stillcollab.wysiwyg.client.control.AbstractControl;
 import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
+import com.axeiya.stillcollab.wysiwyg.client.control.resource.css.ToolBarCss;
 import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.EnterKeyPressedEvent;
 import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.EnterKeyPressedHandler;
 import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.HasEnterKeyPressedHandlers;
@@ -32,17 +33,17 @@ public class ToolBar extends Composite implements HasHotKeyPressedHandlers, HotK
   protected Surface currentSurface;
 
   public ToolBar() {
-    this(ControlResources.Util.getInstance());
+    this(ControlResources.Util.getInstance().toolbar());
   }
 
-  public ToolBar(ControlResources resources) {
+  public ToolBar(ToolBarCss toolbar) {
     super();
     mainPanel = new FlowPanel();
     firstLine = new FlowPanel();
-    firstLine.setStyleName(resources.toolbar().firstLine());
+    firstLine.setStyleName(toolbar.firstLine());
     mainPanel.add(firstLine);
     secondLine = new FlowPanel();
-    secondLine.setStyleName(resources.toolbar().secondLine());
+    secondLine.setStyleName(toolbar.secondLine());
     mainPanel.add(secondLine);
     initWidget(mainPanel);
   }
