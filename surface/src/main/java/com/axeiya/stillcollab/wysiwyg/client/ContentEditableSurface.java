@@ -26,9 +26,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.ParagraphElement;
-import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Display;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -78,9 +76,6 @@ public class ContentEditableSurface extends Widget implements Surface {
     setElement(mainPanel);
     mainPanel.setAttribute("contentEditable", "true");
     mainPanel.setAttribute(DOMUtil.ROOT_ATTRIBUTE, "true");
-    mainPanel.getStyle().setBorderWidth(1, Unit.PX);
-    mainPanel.getStyle().setBorderColor("black");
-    mainPanel.getStyle().setBorderStyle(BorderStyle.DASHED);
     sinkEvents(Event.ONMOUSEUP | Event.ONKEYDOWN | Event.ONFOCUS | Event.ONBLUR | Event.ONPASTE);
     addPreProcessor(new ParagraphProcessor());
     addPostProcessor(new CleanProcessor());
@@ -89,11 +84,6 @@ public class ContentEditableSurface extends Widget implements Surface {
   @Override
   public void setEditable(boolean editable) {
     getElement().setAttribute("contentEditable", editable + "");
-    if (editable) {
-      getElement().getStyle().setBorderStyle(BorderStyle.DASHED);
-    } else {
-      getElement().getStyle().setBorderStyle(BorderStyle.NONE);
-    }
   }
 
   public void onBrowserEvent(com.google.gwt.user.client.Event event) {
@@ -109,16 +99,16 @@ public class ContentEditableSurface extends Widget implements Surface {
         valueChangeTimer.schedule(1000);
         if (event.getKeyCode() == KeyCodes.KEY_ENTER) {
           EnterKeyPressedEvent enter =
-              EnterKeyPressedEvent.fire(this, getSelection(), event.getAltKey(), event
-                  .getCtrlKey(), event.getMetaKey());
+              EnterKeyPressedEvent.fire(this, getSelection(), event.getAltKey(),
+                  event.getCtrlKey(), event.getMetaKey());
           if (enter.isPreventDefault()) {
             event.preventDefault();
           }
         } else if (event.getCtrlKey()) {
           // GWT.log("keycode : " + event.getKeyCode());
           HotKeyPressedEvent hotKey =
-              HotKeyPressedEvent.fire(this, getSelection(), event.getAltKey(), event
-                  .getCtrlKey(), event.getMetaKey(), event.getKeyCode());
+              HotKeyPressedEvent.fire(this, getSelection(), event.getAltKey(), event.getCtrlKey(),
+                  event.getMetaKey(), event.getKeyCode());
           if (hotKey.isPreventDefault()) {
             event.preventDefault();
           }
@@ -242,7 +232,7 @@ public class ContentEditableSurface extends Widget implements Surface {
     SurfaceSelection selection = new SurfaceSelection(Selection.getSelection(), this);
     return selection;
   }
-  
+
   @Override
   public void setSelection(Range range) {
     currentRange = range;

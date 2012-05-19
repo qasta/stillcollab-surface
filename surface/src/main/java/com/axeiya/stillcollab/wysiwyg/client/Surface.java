@@ -17,7 +17,7 @@ public interface Surface extends HasSelectionChangeHandlers, HasEnterKeyPressedH
     HasFocusHandlers {
 
   SurfaceSelection getSelection();
-  
+
   void setSelection(Range range);
 
   void notifyUpdate();
