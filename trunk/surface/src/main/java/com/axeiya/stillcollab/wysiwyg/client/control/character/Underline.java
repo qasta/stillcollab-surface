@@ -12,6 +12,7 @@ public class Underline extends AbstractToggleControl {
   }
 
   public Underline(ControlResources resources) {
-    super(new UnderlineInserter(), new Image(resources.underline()), resources);
+    super(new UnderlineInserter(), new Image(resources.underline()), resources, CONSTANTS
+        .underline());
   }
 }

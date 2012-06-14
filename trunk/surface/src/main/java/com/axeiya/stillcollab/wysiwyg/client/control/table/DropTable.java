@@ -24,6 +24,7 @@ public class DropTable extends AbstractControl implements ClickHandler, IsWidget
 
   public DropTable(ControlResources resources) {
     ui = new DecoratedPushButton(new Image(resources.dropTable()));
+    ui.setTitle(CONSTANTS.dropTable());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new TableInserter();
     ui.addClickHandler(this);
@@ -31,7 +32,6 @@ public class DropTable extends AbstractControl implements ClickHandler, IsWidget
 
   @Override
   public void onSelectionChange(SelectionChangeEvent event) {
-    // TODO Auto-generated method stub
 
   }
 

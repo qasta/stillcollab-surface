@@ -24,6 +24,7 @@ public class DropColumn extends AbstractControl implements ClickHandler, IsWidge
 
   public DropColumn(ControlResources resources) {
     ui = new DecoratedPushButton(new Image(resources.dropColumn()));
+    ui.setTitle(CONSTANTS.dropColumn());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new TableColumnInserter();
     ui.addClickHandler(this);

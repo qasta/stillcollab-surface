@@ -27,6 +27,7 @@ public class InsertLink extends AbstractControl implements ClickHandler, IsWidge
 
   public InsertLink(ControlResources resources) {
     ui = new DecoratedPushButton(new Image(resources.link()));
+    ui.setTitle(CONSTANTS.insertLink());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new LinkInserter();
     ui.addClickHandler(this);

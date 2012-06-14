@@ -28,6 +28,7 @@ public class InsertTable extends AbstractClickableControl implements ClickHandle
 
   public InsertTable(ControlResources resources) {
     ui = new DecoratedPushButton(new Image(resources.addTable()));
+    ui.setTitle(CONSTANTS.insertTable());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new TableInserter();
     ui.addClickHandler(this);

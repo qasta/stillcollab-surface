@@ -12,6 +12,6 @@ public class Italic extends AbstractToggleControl {
   }
 
   public Italic(ControlResources resources) {
-    super(new ItalicInserter(), new Image(resources.italic()), resources);
+    super(new ItalicInserter(), new Image(resources.italic()), resources, CONSTANTS.italic());
   }
 }

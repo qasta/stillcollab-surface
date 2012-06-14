@@ -21,7 +21,13 @@ public class AbstractToggleControl extends AbstractClickableControl implements C
   private Inserter inserter;
 
   public AbstractToggleControl(Inserter inserter, Image icon, ControlResources resources) {
+    this(inserter, icon, resources, "");
+  }
+
+  public AbstractToggleControl(Inserter inserter, Image icon, ControlResources resources,
+      String tooltip) {
     ui = new DecoratedToggleButton(icon);
+    ui.setTitle(tooltip);
     ui.setStyleName(resources.button().surfacePushButton());
     this.inserter = inserter;
     ui.addClickHandler(this);
@@ -29,6 +35,7 @@ public class AbstractToggleControl extends AbstractClickableControl implements C
 
   public AbstractToggleControl(Inserter inserter, String text) {
     ui = new DecoratedToggleButton(text);
+    ui.setTitle(text);
     this.inserter = inserter;
     ui.addClickHandler(this);
   }

@@ -20,7 +20,13 @@ public class AbstractButtonControl extends AbstractClickableControl implements C
   private Inserter inserter;
 
   public AbstractButtonControl(Inserter inserter, Image icon, ControlResources resources) {
+    this(inserter, icon, resources, "");
+  }
+
+  public AbstractButtonControl(Inserter inserter, Image icon, ControlResources resources,
+      String tooltip) {
     ui = new DecoratedPushButton(icon);
+    ui.setTitle(tooltip);
     ui.setStyleName(resources.button().surfacePushButton());
     this.inserter = inserter;
     ui.addClickHandler(this);

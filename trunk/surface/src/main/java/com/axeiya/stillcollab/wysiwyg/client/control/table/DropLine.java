@@ -24,6 +24,7 @@ public class DropLine extends AbstractControl implements ClickHandler, IsWidget 
 
   public DropLine(ControlResources resources) {
     ui = new DecoratedPushButton(new Image(resources.dropRow()));
+    ui.setTitle(CONSTANTS.dropLine());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new TableLineInserter();
     ui.addClickHandler(this);
