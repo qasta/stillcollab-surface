@@ -12,6 +12,7 @@ public class Strikethrought extends AbstractToggleControl {
   }
 
   public Strikethrought(ControlResources resources) {
-    super(new StrikethroughtInserter(), new Image(resources.strikethrought()), resources);
+    super(new StrikethroughtInserter(), new Image(resources.strikethrought()), resources, CONSTANTS
+        .strikethrought());
   }
 }

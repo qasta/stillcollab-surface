@@ -12,6 +12,7 @@ public class Subscript extends AbstractButtonControl {
   }
 
   public Subscript(ControlResources resources) {
-    super(new SubscriptInserter(), new Image(resources.subscript()), resources);
+    super(new SubscriptInserter(), new Image(resources.subscript()), resources, CONSTANTS
+        .subscript());
   }
 }

@@ -24,6 +24,7 @@ public class AddLine extends AbstractControl implements ClickHandler, IsWidget {
 
   public AddLine(ControlResources resources) {
     ui = new DecoratedPushButton(new Image(resources.addRow()));
+    ui.setTitle(CONSTANTS.insertLine());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new TableLineInserter();
     ui.addClickHandler(this);

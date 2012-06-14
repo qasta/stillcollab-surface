@@ -12,6 +12,7 @@ public class OList extends AbstractToggleControl {
   }
 
   public OList(ControlResources resources) {
-    super(new OListInserter(), new Image(resources.orderedList()), resources);
+    super(new OListInserter(), new Image(resources.orderedList()), resources, CONSTANTS
+        .orderedlist());
   }
 }

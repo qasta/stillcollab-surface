@@ -12,6 +12,6 @@ public class Outdent extends AbstractButtonControl {
   }
 
   public Outdent(ControlResources resources) {
-    super(new OutdentInserter(), new Image(resources.outdent()), resources);
+    super(new OutdentInserter(), new Image(resources.outdent()), resources, CONSTANTS.outdent());
   }
 }

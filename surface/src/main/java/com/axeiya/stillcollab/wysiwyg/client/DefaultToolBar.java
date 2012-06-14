@@ -15,6 +15,7 @@ import com.axeiya.stillcollab.wysiwyg.client.control.indent.Indent;
 import com.axeiya.stillcollab.wysiwyg.client.control.indent.Outdent;
 import com.axeiya.stillcollab.wysiwyg.client.control.list.OList;
 import com.axeiya.stillcollab.wysiwyg.client.control.list.UList;
+import com.axeiya.stillcollab.wysiwyg.client.control.paragraph.ParagraphControl;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.AddColumn;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.AddLine;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.DropColumn;
@@ -22,6 +23,7 @@ import com.axeiya.stillcollab.wysiwyg.client.control.table.DropLine;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.DropTable;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.InsertTable;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.MainTableButton;
+import com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter.StyledParagraphInserter;
 
 public class DefaultToolBar extends ToolBar {
 
@@ -29,6 +31,9 @@ public class DefaultToolBar extends ToolBar {
     super();
     setStyleName("sc-Wysiwyg-Toolbar");
 
+    ParagraphControl pControl = new ParagraphControl();
+    pControl.addParagraphStyle("Code", new StyledParagraphInserter("code"));
+    add(pControl);
     add(new UList());
     add(new OList());
     add(new HeadlessParagraph());

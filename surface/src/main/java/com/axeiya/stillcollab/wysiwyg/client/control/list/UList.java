@@ -12,6 +12,7 @@ public class UList extends AbstractToggleControl {
   }
 
   public UList(ControlResources resources) {
-    super(new UListInserter(), new Image(resources.unorderedList()), resources);
+    super(new UListInserter(), new Image(resources.unorderedList()), resources, CONSTANTS
+        .unorderedlist());
   }
 }

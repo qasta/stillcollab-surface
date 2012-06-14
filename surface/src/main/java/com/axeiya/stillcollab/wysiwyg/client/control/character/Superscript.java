@@ -12,6 +12,7 @@ public class Superscript extends AbstractButtonControl {
   }
 
   public Superscript(ControlResources resources) {
-    super(new SuperscriptInserter(), new Image(resources.superscript()), resources);
+    super(new SuperscriptInserter(), new Image(resources.superscript()), resources, CONSTANTS
+        .superscript());
   }
 }

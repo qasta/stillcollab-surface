@@ -25,3 +25,8 @@ h1 {
 .sc-Wysiwyg-Toolbar .gwt-ToggleButton {
 	display: inline-block;
 }
+
+.code {
+	border: 2px dashed gray;
+	font-family: monospace;
+}

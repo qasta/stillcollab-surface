@@ -24,6 +24,7 @@ public class AddColumn extends AbstractControl implements ClickHandler, IsWidget
 
   public AddColumn(ControlResources resources) {
     ui = new DecoratedPushButton(new Image(resources.addColumn()));
+    ui.setTitle(CONSTANTS.insertColumn());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new TableColumnInserter();
     ui.addClickHandler(this);

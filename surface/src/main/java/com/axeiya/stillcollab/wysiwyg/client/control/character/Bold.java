@@ -12,6 +12,6 @@ public class Bold extends AbstractToggleControl {
   }
 
   public Bold(ControlResources resources) {
-    super(new BoldInserter(), new Image(resources.bold()), resources);
+    super(new BoldInserter(), new Image(resources.bold()), resources, CONSTANTS.bold());
   }
 }

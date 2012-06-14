@@ -25,6 +25,7 @@ public class MainTableButton extends AbstractClickableControl implements ClickHa
 
   public MainTableButton(ControlResources resources) {
     ui = new DecoratedToggleButton(new Image(resources.addTable()));
+    ui.setTitle(CONSTANTS.tables());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new TableInserter();
     ui.addClickHandler(this);

@@ -12,7 +12,7 @@ public class Indent extends AbstractButtonControl {
   }
 
   public Indent(ControlResources resources) {
-    super(new IndentInserter(), new Image(resources.indent()), resources);
+    super(new IndentInserter(), new Image(resources.indent()), resources, CONSTANTS.indent());
   }
 
 }

@@ -25,6 +25,7 @@ public class RemoveLink extends AbstractControl implements ClickHandler, IsWidge
   public RemoveLink(ControlResources resources) {
     super();
     ui = new DecoratedPushButton(new Image(resources.dropLink()));
+    ui.setTitle(CONSTANTS.dropLink());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new LinkInserter();
     ui.addClickHandler(this);

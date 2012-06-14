@@ -12,6 +12,6 @@ public class Quote extends AbstractToggleControl {
   }
 
   public Quote(ControlResources resources) {
-    super(new QuoteInserter(), new Image(resources.quote()), resources);
+    super(new QuoteInserter(), new Image(resources.quote()), resources, CONSTANTS.quote());
   }
 }
