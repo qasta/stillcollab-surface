@@ -11,16 +11,20 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 
 public class FontFamilyInserter extends InlineInserter<Element> {
+  public static final String FONTFAMILY_PROPERTYNAME = "fontFamily";
 
   private FontFamilyConfig currentConfig;
 
-  public FontFamilyInserter() {
+  public FontFamilyInserter(FontFamilyConfig config) {
     action = new FontFamilyInsertAction();
     invertAction = new FontFamilyInvertAction();
+    currentConfig = config;
   }
 
-  protected FontFamilyInserter(InsertAction<Element> action, InsertAction<Element> invertAction) {
+  protected FontFamilyInserter(InsertAction<Element> action, InsertAction<Element> invertAction,
+      FontFamilyConfig config) {
     super(action, invertAction);
+    currentConfig = config;
   }
 
   protected class FontFamilyInsertAction extends InsertAction<Element> {
@@ -30,9 +34,9 @@ public class FontFamilyInserter extends InlineInserter<Element> {
     public void onAction(Element element, SurfaceSelection selection) {
       if (FontFamilyInserter.this.currentConfig.getFontName().equals(
           FontFamilyConfig.DEFAULT_FONTNAME)) {
-        element.getStyle().clearProperty("fontFamily");
+        element.getStyle().clearProperty(FONTFAMILY_PROPERTYNAME);
       } else {
-        element.getStyle().setProperty("fontFamily",
+        element.getStyle().setProperty(FONTFAMILY_PROPERTYNAME,
             FontFamilyInserter.this.currentConfig.getFontName());
       }
     }
@@ -74,15 +78,9 @@ public class FontFamilyInserter extends InlineInserter<Element> {
     }
   }
 
-  public void insert(SurfaceSelection selection, FontFamilyConfig config) {
-    currentConfig = config;
-    super.insert(selection);
-  }
-
-  @Deprecated
   @Override
   public void insert(SurfaceSelection selection) {
-    throw new IllegalArgumentException("Use insert(Selection,FontFamilyConfig) instead");
+    super.insert(selection);
   }
 
   @Override
@@ -97,8 +95,9 @@ public class FontFamilyInserter extends InlineInserter<Element> {
 
   @Override
   protected boolean adjustSelectionAssignee(Element matchingAncestor, SurfaceSelection selection) {
-    // TODO : à implanter en retournant le nom de la police
-    return false;
+    return matchingAncestor.getStyle().getProperty(FONTFAMILY_PROPERTYNAME) != null
+        && matchingAncestor.getStyle().getProperty(FONTFAMILY_PROPERTYNAME).equals(
+            currentConfig.getFontName());
   }
 
 }

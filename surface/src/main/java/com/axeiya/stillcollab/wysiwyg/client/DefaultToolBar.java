@@ -5,6 +5,7 @@ import com.axeiya.stillcollab.wysiwyg.client.control.block.InsertLink;
 import com.axeiya.stillcollab.wysiwyg.client.control.block.Quote;
 import com.axeiya.stillcollab.wysiwyg.client.control.block.RemoveLink;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Bold;
+import com.axeiya.stillcollab.wysiwyg.client.control.character.FontFamilySelector;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Italic;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Strikethrought;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Subscript;
@@ -34,6 +35,7 @@ public class DefaultToolBar extends ToolBar {
     ParagraphControl pControl = new ParagraphControl();
     pControl.addParagraphStyle("Code", new StyledParagraphInserter("code"));
     add(pControl);
+    add(new FontFamilySelector());
     add(new UList());
     add(new OList());
     add(new HeadlessParagraph());
