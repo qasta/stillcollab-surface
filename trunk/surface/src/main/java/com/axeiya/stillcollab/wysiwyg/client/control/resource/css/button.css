@@ -83,3 +83,13 @@
 	opacity:0.4;
 	filter:alpha(opacity=40);
 }
+
+.surfaceDiv, .surfaceDiv div {
+	display: inline-block;
+}
+
+.surfaceDiv {
+	height: 29px;
+	position: relative;
+	top: -9px;	
+}

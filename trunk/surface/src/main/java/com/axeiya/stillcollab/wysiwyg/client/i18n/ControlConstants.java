@@ -88,4 +88,10 @@ public interface ControlConstants extends Constants {
   @DefaultStringValue("Heading 6")
   String heading6();
 
+  @DefaultStringValue("Images")
+  String images();
+
+  @DefaultStringValue("Size : ")
+  String imageSize();
+
 }

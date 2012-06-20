@@ -1,5 +1,8 @@
 package com.axeiya.stillcollab.wysiwyg.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.axeiya.stillcollab.wysiwyg.client.control.AbstractControl;
 import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.control.resource.css.ToolBarCss;
@@ -32,12 +35,15 @@ public class ToolBar extends Composite implements HasHotKeyPressedHandlers, HotK
   protected FlowPanel secondLine;
   protected Surface currentSurface;
 
+  protected List<ToolGroup> groups;
+
   public ToolBar() {
     this(ControlResources.Util.getInstance().toolbar());
   }
 
   public ToolBar(ToolBarCss toolbar) {
     super();
+    groups = new ArrayList<ToolGroup>();
     mainPanel = new FlowPanel();
     firstLine = new FlowPanel();
     firstLine.setStyleName(toolbar.firstLine());
@@ -63,6 +69,7 @@ public class ToolBar extends Composite implements HasHotKeyPressedHandlers, HotK
   }
 
   public void add(final ToolGroup group) {
+    groups.add(group);
     add(group.getMainComponent());
 
     for (AbstractControl control : group.getSubComponents()) {
@@ -73,6 +80,10 @@ public class ToolBar extends Composite implements HasHotKeyPressedHandlers, HotK
     group.getMainComponent().addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
+        for (ToolGroup other : groups) {
+          other.getMainComponent().setDown(false);
+        }
+        group.getMainComponent().setDown(true);
         secondLine.clear();
         for (AbstractControl control : group.getSubComponents()) {
           if (control instanceof IsWidget) {

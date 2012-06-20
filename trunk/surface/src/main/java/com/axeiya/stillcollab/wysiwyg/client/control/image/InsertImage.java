@@ -1,4 +1,4 @@
-package com.axeiya.stillcollab.wysiwyg.client.control.block;
+package com.axeiya.stillcollab.wysiwyg.client.control.image;
 
 import com.axeiya.stillcollab.wysiwyg.client.control.AbstractControl;
 import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;

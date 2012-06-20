@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.axeiya.stillcollab.wysiwyg.client.control.AbstractControl;
+import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeEvent;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter.H1Inserter;
@@ -18,19 +19,28 @@ import com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter.Paragrap
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ParagraphControl extends AbstractControl implements IsWidget, ChangeHandler {
 
+  private FlowPanel ui;
   private ListBox paragraphSelector;
   private Map<Integer, Inserter> inserters = new HashMap<Integer, Inserter>();
   private PInserter pInserter = new PInserter();
 
   public ParagraphControl() {
+    this(ControlResources.Util.getInstance());
+  }
+
+  public ParagraphControl(ControlResources resources) {
+    ui = new FlowPanel();
+    ui.setStyleName(resources.button().surfaceDiv());
     paragraphSelector = new ListBox();
     paragraphSelector.addChangeHandler(this);
+    ui.add(paragraphSelector);
 
     addParagraphStyle(CONSTANTS.paragraphNormal(), pInserter);
     addParagraphStyle(CONSTANTS.heading1(), new H1Inserter());
@@ -74,7 +84,7 @@ public class ParagraphControl extends AbstractControl implements IsWidget, Chang
 
   @Override
   public Widget asWidget() {
-    return paragraphSelector;
+    return ui;
   }
 
   @Override

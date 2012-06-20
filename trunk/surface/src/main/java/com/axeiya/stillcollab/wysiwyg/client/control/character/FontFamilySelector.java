@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.axeiya.stillcollab.wysiwyg.client.control.AbstractControl;
+import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeEvent;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.inlineinserter.text.FontFamilyInserter;
@@ -14,6 +15,7 @@ import com.axeiya.stillcollab.wysiwyg.client.inserter.inlineinserter.text.FontFa
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -51,13 +53,21 @@ public class FontFamilySelector extends AbstractControl implements IsWidget, Cha
     }
   }
 
+  private FlowPanel ui;
   private ListBox fontSelector = new ListBox();
   private Map<Integer, Inserter> inserters = new HashMap<Integer, Inserter>();
   private FontFamilyInserter defaultInserter = new FontFamilyInserter(new FontFamilyConfig(
       DEFAULT_FAMILY.getCss()));
 
   public FontFamilySelector() {
+    this(ControlResources.Util.getInstance());
+  }
+
+  public FontFamilySelector(ControlResources resources) {
+    ui = new FlowPanel();
+    ui.setStyleName(resources.button().surfaceDiv());
     fontSelector.addChangeHandler(this);
+    ui.add(fontSelector);
     addFontFamily(DEFAULT_FAMILY);
     inserters.put(0, defaultInserter);
     for (FontFamily family : FAMILIES) {
@@ -98,7 +108,7 @@ public class FontFamilySelector extends AbstractControl implements IsWidget, Cha
 
   @Override
   public Widget asWidget() {
-    return fontSelector;
+    return ui;
   }
 
   @Override

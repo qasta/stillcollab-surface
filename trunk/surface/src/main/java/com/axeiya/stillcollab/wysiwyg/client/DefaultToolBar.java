@@ -1,6 +1,5 @@
 package com.axeiya.stillcollab.wysiwyg.client;
 
-import com.axeiya.stillcollab.wysiwyg.client.control.block.InsertImage;
 import com.axeiya.stillcollab.wysiwyg.client.control.block.InsertLink;
 import com.axeiya.stillcollab.wysiwyg.client.control.block.Quote;
 import com.axeiya.stillcollab.wysiwyg.client.control.block.RemoveLink;
@@ -12,6 +11,9 @@ import com.axeiya.stillcollab.wysiwyg.client.control.character.Subscript;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Superscript;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Underline;
 import com.axeiya.stillcollab.wysiwyg.client.control.headless.HeadlessParagraph;
+import com.axeiya.stillcollab.wysiwyg.client.control.image.ImageSize;
+import com.axeiya.stillcollab.wysiwyg.client.control.image.InsertImage;
+import com.axeiya.stillcollab.wysiwyg.client.control.image.MainImageButton;
 import com.axeiya.stillcollab.wysiwyg.client.control.indent.Indent;
 import com.axeiya.stillcollab.wysiwyg.client.control.indent.Outdent;
 import com.axeiya.stillcollab.wysiwyg.client.control.list.OList;
@@ -52,7 +54,12 @@ public class DefaultToolBar extends ToolBar {
     add(new Quote());
     add(new InsertLink());
     add(new RemoveLink());
-    add(new InsertImage());
+
+    ToolGroup imageGroup = new ToolGroup(new MainImageButton());
+    imageGroup.addSubComponent(new InsertImage());
+    imageGroup.addSubComponent(new ImageSize());
+    add(imageGroup);
+
     add(new Indent());
     add(new Outdent());
     // add(new FFArial());
