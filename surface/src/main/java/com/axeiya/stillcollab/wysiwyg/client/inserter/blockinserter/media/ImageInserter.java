@@ -33,10 +33,14 @@ public class ImageInserter extends BlockInserter<ImageElement> {
       ImageConfig config = ImageInserter.this.currentConfig;
       element.setSrc(config.getUrl());
       if (config.getWidth() > -1) {
-        element.getStyle().setHeight(config.getWidth(), Unit.PX);
+        element.getStyle().setWidth(config.getWidth(), Unit.PX);
+      } else {
+        element.getStyle().clearWidth();
       }
       if (config.getHeight() > -1) {
         element.getStyle().setHeight(config.getHeight(), Unit.PX);
+      } else {
+        element.getStyle().clearHeight();
       }
     }
 
@@ -54,13 +58,6 @@ public class ImageInserter extends BlockInserter<ImageElement> {
     public ImageConfig(String url) {
       super();
       this.url = url;
-    }
-
-    public ImageConfig(String url, int width, int height) {
-      super();
-      this.url = url;
-      this.width = width;
-      this.height = height;
     }
 
     public String getUrl() {
@@ -124,10 +121,12 @@ public class ImageInserter extends BlockInserter<ImageElement> {
         ImageConfig config = new ImageConfig(img.getSrc());
         try {
           if (img.getStyle().getWidth() != null && !img.getStyle().getWidth().isEmpty()) {
-            config.setWidth(Integer.parseInt(img.getStyle().getWidth()));
+            String width = img.getStyle().getWidth().replaceAll("px", "");
+            config.setWidth(Integer.parseInt(width));
           }
           if (img.getStyle().getHeight() != null && !img.getStyle().getHeight().isEmpty()) {
-            config.setHeight(Integer.parseInt(img.getStyle().getHeight()));
+            String height = img.getStyle().getHeight().replaceAll("px", "");
+            config.setHeight(Integer.parseInt(height));
           }
         } catch (NumberFormatException nfe) {
           GWT.log("Error while retrieving img size", nfe);
@@ -140,10 +139,13 @@ public class ImageInserter extends BlockInserter<ImageElement> {
   }
 
   public void updateConfig(SurfaceSelection selection, ImageConfig config) {
-    ImageElement img = (ImageElement) getCommonMatchingAncestor(selection);
-    if (img != null) {
-      currentConfig = config;
-      action.onAction(img, selection);
+    Node ancestor = selection.getSelection().getRange().getCommonAncestorContainer();
+    if (ancestor != null && ancestor.getNodeType() == Node.ELEMENT_NODE) {
+      ImageElement img = (ImageElement) DOMUtil.getFirstChildOfType((Element) ancestor, "img");
+      if (img != null) {
+        currentConfig = config;
+        action.onAction(img, selection);
+      }
     }
   }
 }

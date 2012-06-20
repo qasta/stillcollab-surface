@@ -1,10 +1,10 @@
-package com.axeiya.stillcollab.wysiwyg.client.control.table;
+package com.axeiya.stillcollab.wysiwyg.client.control.image;
 
 import com.axeiya.stillcollab.wysiwyg.client.control.AbstractClickableControl;
 import com.axeiya.stillcollab.wysiwyg.client.control.resource.ControlResources;
 import com.axeiya.stillcollab.wysiwyg.client.event.selectionchange.SelectionChangeEvent;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.Inserter;
-import com.axeiya.stillcollab.wysiwyg.client.inserter.tableinserter.TableInserter;
+import com.axeiya.stillcollab.wysiwyg.client.inserter.blockinserter.media.ImageInserter;
 import com.axeiya.stillcollab.wysiwyg.client.widget.DecoratedToggleButton;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -14,40 +14,21 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MainTableButton extends AbstractClickableControl implements ClickHandler, IsWidget {
+public class MainImageButton extends AbstractClickableControl implements ClickHandler, IsWidget {
 
   private DecoratedToggleButton ui;
-  private TableInserter inserter;
+  private ImageInserter inserter;
 
-  public MainTableButton() {
+  public MainImageButton() {
     this(ControlResources.Util.getInstance());
   }
 
-  public MainTableButton(ControlResources resources) {
-    ui = new DecoratedToggleButton(new Image(resources.addTable()));
-    ui.setTitle(CONSTANTS.tables());
+  public MainImageButton(ControlResources resources) {
+    ui = new DecoratedToggleButton(new Image(resources.image()));
+    ui.setTitle(CONSTANTS.images());
     ui.setStyleName(resources.button().surfacePushButton());
-    inserter = new TableInserter();
+    inserter = new ImageInserter();
     ui.addClickHandler(this);
-  }
-
-  @Override
-  public void onSelectionChange(SelectionChangeEvent event) {
-  }
-
-  @Override
-  public void onClick(ClickEvent event) {
-
-  }
-
-  @Override
-  public Inserter getInserter() {
-    return inserter;
-  }
-
-  @Override
-  public Widget asWidget() {
-    return ui;
   }
 
   @Override
@@ -61,7 +42,27 @@ public class MainTableButton extends AbstractClickableControl implements ClickHa
   }
 
   @Override
+  public void onSelectionChange(SelectionChangeEvent event) {
+  }
+
+  @Override
+  public Inserter getInserter() {
+    return inserter;
+  }
+
+  @Override
+  public void onClick(ClickEvent event) {
+
+  }
+
+  @Override
+  public Widget asWidget() {
+    return ui;
+  }
+
+  @Override
   public void setDown(boolean b) {
     ui.setDown(b);
   }
+
 }

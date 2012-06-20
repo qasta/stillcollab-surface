@@ -12,7 +12,6 @@
 	<inherits name='com.google.gwt.json.JSON' />
 	<inherits name='com.google.gwt.xml.XML' />
 	<inherits name='com.axeiya.stillcollab.wysiwyg.Wysiwyg'/>
-	<inherits name="com.google.gwt.inject.Inject" />
 	
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.axeiya.stillcollab.client.WysiwygSample' />
