@@ -19,6 +19,11 @@ import com.axeiya.stillcollab.wysiwyg.client.control.indent.Outdent;
 import com.axeiya.stillcollab.wysiwyg.client.control.list.OList;
 import com.axeiya.stillcollab.wysiwyg.client.control.list.UList;
 import com.axeiya.stillcollab.wysiwyg.client.control.paragraph.ParagraphControl;
+import com.axeiya.stillcollab.wysiwyg.client.control.paragraph.alignment.CenterAlign;
+import com.axeiya.stillcollab.wysiwyg.client.control.paragraph.alignment.JustifyAlign;
+import com.axeiya.stillcollab.wysiwyg.client.control.paragraph.alignment.LeftAlign;
+import com.axeiya.stillcollab.wysiwyg.client.control.paragraph.alignment.MainAlignButton;
+import com.axeiya.stillcollab.wysiwyg.client.control.paragraph.alignment.RightAlign;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.AddColumn;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.AddLine;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.DropColumn;
@@ -47,6 +52,14 @@ public class DefaultToolBar extends ToolBar {
     add(new Subscript());
     add(new Superscript());
     add(new Strikethrought());
+
+    ToolGroup alignmentGroup = new ToolGroup(new MainAlignButton());
+    alignmentGroup.addSubComponent(new LeftAlign());
+    alignmentGroup.addSubComponent(new CenterAlign());
+    alignmentGroup.addSubComponent(new RightAlign());
+    alignmentGroup.addSubComponent(new JustifyAlign());
+    add(alignmentGroup);
+
     // add(new Pre());
     add(new Quote());
     add(new InsertLink());
