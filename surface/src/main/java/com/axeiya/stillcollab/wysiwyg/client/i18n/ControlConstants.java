@@ -91,7 +91,10 @@ public interface ControlConstants extends Constants {
   @DefaultStringValue("Images")
   String images();
 
-  @DefaultStringValue("Size : ")
-  String imageSize();
+  @DefaultStringValue("Width : ")
+  String width();
+
+  @DefaultStringValue("Height : ")
+  String height();
 
 }

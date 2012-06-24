@@ -22,7 +22,8 @@ public class ImageSize extends AbstractControl implements ValueChangeHandler<Int
   private ImageInserter inserter;
   private boolean imgSelected = false;
 
-  private IntegerBox sizeBox;
+  private IntegerBox widthBox;
+  private IntegerBox heightBox;
 
   public ImageSize() {
     this(ControlResources.Util.getInstance());
@@ -33,25 +34,41 @@ public class ImageSize extends AbstractControl implements ValueChangeHandler<Int
 
     ui = new FlowPanel();
     ui.setStyleName(resources.button().surfaceDiv());
-    Label ratio = new Label(CONSTANTS.imageSize());
-    ui.add(ratio);
-    sizeBox = new IntegerBox();
-    sizeBox.setWidth("50px");
-    ui.add(sizeBox);
-    Label percent = new Label("px");
-    ui.add(percent);
+    Label width = new Label(CONSTANTS.width());
+    ui.add(width);
+
+    widthBox = new IntegerBox();
+    widthBox.setWidth("50px");
+    ui.add(widthBox);
+    // Label px1 = new Label("px");
+    // ui.add(px1);
+
+    Label height = new Label(CONSTANTS.height());
+    ui.add(height);
+
+    heightBox = new IntegerBox();
+    heightBox.setWidth("50px");
+    ui.add(heightBox);
+    // Label px2 = new Label("px");
+    // ui.add(px2);
 
     inserter = new ImageInserter();
-    sizeBox.addValueChangeHandler(this);
+    widthBox.addValueChangeHandler(this);
+    heightBox.addValueChangeHandler(this);
+
+    widthBox.setEnabled(false);
+    heightBox.setEnabled(false);
   }
 
   @Override
   public void onSelectionChange(SelectionChangeEvent event) {
     imgSelected = inserter.isSelectionAssignee(event.getSelection());
-    sizeBox.setEnabled(imgSelected);
+    widthBox.setEnabled(imgSelected);
+    heightBox.setEnabled(imgSelected);
     if (imgSelected) {
       ImageConfig config = inserter.getCurrentConfig(event.getSelection());
-      sizeBox.setValue(config.getWidth());
+      widthBox.setValue(config.getWidth() > -1 ? config.getWidth() : null);
+      heightBox.setValue(config.getHeight() > -1 ? config.getHeight() : null);
     }
   }
 
@@ -69,7 +86,8 @@ public class ImageSize extends AbstractControl implements ValueChangeHandler<Int
   public void onValueChange(ValueChangeEvent<Integer> event) {
     if (imgSelected) {
       ImageConfig config = inserter.getCurrentConfig(currentSurface.getSelection());
-      config.setWidth(event.getValue());
+      config.setWidth(widthBox.getValue() != null ? widthBox.getValue() : -1);
+      config.setHeight(heightBox.getValue() != null ? heightBox.getValue() : -1);
       inserter.updateConfig(currentSurface.getSelection(), config);
     }
   }
