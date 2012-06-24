@@ -28,6 +28,19 @@ public class FontFamilySelector extends AbstractControl implements IsWidget, Cha
     FAMILIES = new ArrayList<FontFamilySelector.FontFamily>();
     FAMILIES.add(new FontFamily("Andale mono", "'andale mono', times"));
     FAMILIES.add(new FontFamily("Arial", "arial, helvetica, sans-serif"));
+    FAMILIES.add(new FontFamily("Arial Black", "arial black,avant garde"));
+    FAMILIES.add(new FontFamily("Book Antiqua", "book antiqua,palatino"));
+    FAMILIES.add(new FontFamily("Comic Sans MS", "comic sans ms,sans-serif"));
+    FAMILIES.add(new FontFamily("Courrier New", "courier new,courier"));
+    FAMILIES.add(new FontFamily("Georgia", "georgia,palatino"));
+    FAMILIES.add(new FontFamily("Helvetica", "helvetica"));
+    FAMILIES.add(new FontFamily("Impact", "impact,chicago"));
+    FAMILIES.add(new FontFamily("Symbol", "symbol"));
+    FAMILIES.add(new FontFamily("Tahoma", "tahoma,arial,helvetica,sans-serif"));
+    FAMILIES.add(new FontFamily("Terminal", "terminal,monaco"));
+    FAMILIES.add(new FontFamily("Times New Roman", "times new roman,times"));
+    FAMILIES.add(new FontFamily("Trebuchet MS", "trebuchet ms,geneva"));
+    FAMILIES.add(new FontFamily("Verdana", "verdana,geneva"));
   }
 
   public static class FontFamily {
