@@ -41,9 +41,6 @@ public class DefaultToolBar extends ToolBar {
     add(new UList());
     add(new OList());
     add(new HeadlessParagraph());
-    // add(new Paragraph());
-    // add(new Heading1());
-    // add(new Heading2());
     add(new Bold());
     add(new Italic());
     add(new Underline());
@@ -62,9 +59,6 @@ public class DefaultToolBar extends ToolBar {
 
     add(new Indent());
     add(new Outdent());
-    // add(new FFArial());
-    // add(new FFHelvetica());
-    // add(new FFCourrier());
     ToolGroup tableGroup = new ToolGroup(new MainTableButton());
     tableGroup.addSubComponent(new InsertTable());
     tableGroup.addSubComponent(new DropTable());
