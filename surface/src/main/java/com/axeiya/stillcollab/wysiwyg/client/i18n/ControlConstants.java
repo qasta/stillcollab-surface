@@ -97,4 +97,19 @@ public interface ControlConstants extends Constants {
   @DefaultStringValue("Height : ")
   String height();
 
+  @DefaultStringValue("Align left")
+  String leftAlign();
+
+  @DefaultStringValue("Paragraph alignment")
+  String alignment();
+
+  @DefaultStringValue("Align center")
+  String centerAlign();
+
+  @DefaultStringValue("Justify")
+  String justifyAlign();
+
+  @DefaultStringValue("Align right")
+  String rightAlign();
+
 }
