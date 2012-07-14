@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.axeiya.stillcollab.wysiwyg.client.ranges.Range;
-import com.axeiya.stillcollab.wysiwyg.client.ranges.Selection;
 import com.axeiya.stillcollab.wysiwyg.client.ranges.SurfaceSelection;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -37,6 +36,8 @@ public class DOMUtil {
     public native String getAttributeStringValue(Element element, String attributeName) /*-{
 			if (attributeName == "style") {
 				return element.style.cssText.toLowerCase();
+			} else if (attributeName == "class") {
+				return element.className;
 			}
 			return eval('(element.' + attributeName + ')');
     }-*/;
@@ -303,24 +304,24 @@ public class DOMUtil {
     }
     return null;
   }
-  
+
   public static Element getFirstChildOfType(Element element, String tag) {
     @SuppressWarnings("unchecked")
     JsArray<Element> elements = (JsArray<Element>) JsArray.createArray();
     Element elem = element;
     do {
-      if(elem.getTagName().equalsIgnoreCase(tag)) {
+      if (elem.getTagName().equalsIgnoreCase(tag)) {
         return elem;
       }
       Node child = elem.getFirstChild();
-      while(child != null) {
-        if(child.getNodeType() == Node.ELEMENT_NODE) {
+      while (child != null) {
+        if (child.getNodeType() == Node.ELEMENT_NODE) {
           elements.push((Element) child);
         }
         child = child.getNextSibling();
       }
       elem = elements.shift();
-    } while(elem != null);
+    } while (elem != null);
     return null;
   }
 
@@ -346,15 +347,17 @@ public class DOMUtil {
 
     if (node.getNodeType() == Node.TEXT_NODE) {
       sb.append(node.getNodeValue());
-    } else if(node.getNodeType() == Node.ELEMENT_NODE) {
+    } else if (node.getNodeType() == Node.ELEMENT_NODE) {
       Element element = (Element) node;
       sb.append("<" + node.getNodeName().toLowerCase());
       int i = 0;
       JsArray<Node> attributes = getAttributes(element);
       while (i < attributes.length()) {
         Node attribute = attributes.get(i);
-        sb.append(" " + attribute.getNodeName().toLowerCase() + "=\""
-            + impl.getAttributeStringValue(element, attribute.getNodeName()).replaceAll("&", "&amp;") + "\"");
+        String nodeName = attribute.getNodeName();
+        String nodeValue = impl.getAttributeStringValue(element, nodeName);
+        sb.append(" " + nodeName.toLowerCase() + "=\""
+            + (nodeValue != null ? nodeValue.replaceAll("&", "&amp;") : "") + "\"");
         i++;
       }
       if (!element.hasChildNodes()) {
