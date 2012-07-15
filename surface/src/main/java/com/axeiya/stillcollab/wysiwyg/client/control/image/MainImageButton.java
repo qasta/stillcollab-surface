@@ -24,7 +24,7 @@ public class MainImageButton extends AbstractClickableControl implements ClickHa
   }
 
   public MainImageButton(ControlResources resources) {
-    ui = new DecoratedToggleButton(new Image(resources.image()));
+    ui = new DecoratedToggleButton(new Image(resources.imageMenu()));
     ui.setTitle(CONSTANTS.images());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new ImageInserter();
