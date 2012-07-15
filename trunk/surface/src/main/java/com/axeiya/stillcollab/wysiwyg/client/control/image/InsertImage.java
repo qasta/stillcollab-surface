@@ -31,7 +31,7 @@ public class InsertImage extends AbstractControl implements ClickHandler, IsWidg
   public InsertImage(ControlResources resources) {
     this.resources = resources;
 
-    ui = new DecoratedPushButton(new Image(resources.imageMenu()));
+    ui = new DecoratedPushButton(new Image(resources.image()));
     ui.setTitle(CONSTANTS.insertImage());
     ui.setStyleName(resources.button().surfacePushButton());
     inserter = new ImageInserter();
