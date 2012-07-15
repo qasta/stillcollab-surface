@@ -61,6 +61,9 @@ public interface ControlResources extends ClientBundle {
   @Source("icon/image.gif")
   ImageResource image();
 
+  @Source("icon/image-menu.png")
+  ImageResource imageMenu();
+
   @Source("icon/image-active.gif")
   ImageResource imageActive();
 
