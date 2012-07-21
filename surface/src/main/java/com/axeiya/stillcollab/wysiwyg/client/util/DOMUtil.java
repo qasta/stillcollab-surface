@@ -13,12 +13,15 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.Text;
+import com.google.gwt.regexp.shared.RegExp;
 
 public class DOMUtil {
 
   public static final String ROOT_ATTRIBUTE = "root_body";
   public static final String DIRTY_ATTRIBUTE = "sc_dirty";
   public static final List<String> SELF_CLOSING_TAGS = Arrays.asList("img", "br", "hr");
+  public static final RegExp lt = RegExp.compile("<", "gm");
+  public static final RegExp gt = RegExp.compile(">", "gm");
 
   public static class DOMUtilImpl {
     public String getAttributeStringValue(Element element, String attributeName) {
@@ -346,7 +349,7 @@ public class DOMUtil {
   public static void getXhtml(Node node, StringBuilder sb) {
 
     if (node.getNodeType() == Node.TEXT_NODE) {
-      sb.append(node.getNodeValue());
+      sb.append(lt.replace(gt.replace(node.getNodeValue(), "&gt;"), "&lt;"));
     } else if (node.getNodeType() == Node.ELEMENT_NODE) {
       Element element = (Element) node;
       sb.append("<" + node.getNodeName().toLowerCase());
