@@ -165,4 +165,7 @@ public interface ControlResources extends ClientBundle {
 
   @Source("icon/drop-link.png")
   ImageResource dropLink();
+
+  @Source("other/separator.png")
+  ImageResource separator();
 }

@@ -35,6 +35,7 @@ public class ImageSize extends AbstractControl implements ValueChangeHandler<Int
     ui = new FlowPanel();
     ui.setStyleName(resources.button().surfaceDiv());
     Label width = new Label(CONSTANTS.width());
+    width.setStyleName(resources.toolbar().label());
     ui.add(width);
 
     widthBox = new IntegerBox();
@@ -44,6 +45,7 @@ public class ImageSize extends AbstractControl implements ValueChangeHandler<Int
     // ui.add(px1);
 
     Label height = new Label(CONSTANTS.height());
+    height.setStyleName(resources.toolbar().label());
     ui.add(height);
 
     heightBox = new IntegerBox();

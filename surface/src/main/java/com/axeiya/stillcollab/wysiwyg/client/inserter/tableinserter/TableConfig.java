@@ -15,18 +15,24 @@ public class TableConfig {
   private int column;
   private String caption;
   private CaptionAlign captionAlign = CaptionAlign.BOTTOM;
+  private int borderSize;
 
-  public TableConfig(boolean headerLine, int width, Unit widthUnit, int line, int column) {
+  public TableConfig(boolean headerLine, int width, Unit widthUnit, int line, int column,
+      int borderSize) {
     super();
     this.headerLine = headerLine;
     this.width = width;
     this.widthUnit = widthUnit;
     this.line = line;
     this.column = column;
+    this.borderSize = borderSize;
   }
 
   public TableConfig(int line, int column, boolean headerLine) {
-    this(headerLine, 100, Unit.PCT, line, column);
+    this(headerLine, 100, Unit.PCT, line, column, 1);
+  }
+
+  public TableConfig() {
   }
 
   public boolean isHeaderLine() {
@@ -83,6 +89,14 @@ public class TableConfig {
 
   public void setCaptionAlign(CaptionAlign captionAlign) {
     this.captionAlign = captionAlign;
+  }
+
+  public int getBorderSize() {
+    return borderSize;
+  }
+
+  public void setBorderSize(int borderSize) {
+    this.borderSize = borderSize;
   }
 
 }

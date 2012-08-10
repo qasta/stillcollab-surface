@@ -7,4 +7,6 @@ public interface ButtonCss extends CssResource {
   String surfacePushButton();
 
   String surfaceDiv();
+
+  String separator();
 }

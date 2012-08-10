@@ -10,7 +10,6 @@ import com.axeiya.stillcollab.wysiwyg.client.control.character.Strikethrought;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Subscript;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Superscript;
 import com.axeiya.stillcollab.wysiwyg.client.control.character.Underline;
-import com.axeiya.stillcollab.wysiwyg.client.control.headless.HeadlessParagraph;
 import com.axeiya.stillcollab.wysiwyg.client.control.image.ImageSize;
 import com.axeiya.stillcollab.wysiwyg.client.control.image.InsertImage;
 import com.axeiya.stillcollab.wysiwyg.client.control.image.MainImageButton;
@@ -31,7 +30,11 @@ import com.axeiya.stillcollab.wysiwyg.client.control.table.DropLine;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.DropTable;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.InsertTable;
 import com.axeiya.stillcollab.wysiwyg.client.control.table.MainTableButton;
+import com.axeiya.stillcollab.wysiwyg.client.control.table.TableConfiguration;
+import com.axeiya.stillcollab.wysiwyg.client.event.enterkeypressed.EnterKeyPressedHandler;
+import com.axeiya.stillcollab.wysiwyg.client.event.hotkeypressed.HotKeyPressedHandler;
 import com.axeiya.stillcollab.wysiwyg.client.inserter.paragraphinserter.StyledParagraphInserter;
+import com.axeiya.stillcollab.wysiwyg.client.widget.Separator;
 
 public class DefaultToolBar extends ToolBar {
 
@@ -39,19 +42,14 @@ public class DefaultToolBar extends ToolBar {
     super();
     setStyleName("sc-Wysiwyg-Toolbar");
 
-    ParagraphControl pControl = new ParagraphControl();
-    pControl.addParagraphStyle("Code", new StyledParagraphInserter("code"));
-    add(pControl);
-    add(new FontFamilySelector());
-    add(new UList());
-    add(new OList());
-    add(new HeadlessParagraph());
     add(new Bold());
     add(new Italic());
     add(new Underline());
     add(new Subscript());
     add(new Superscript());
     add(new Strikethrought());
+    add(new FontFamilySelector());
+    addWidget(new Separator());
 
     ToolGroup alignmentGroup = new ToolGroup(new MainAlignButton());
     alignmentGroup.addSubComponent(new LeftAlign());
@@ -59,9 +57,20 @@ public class DefaultToolBar extends ToolBar {
     alignmentGroup.addSubComponent(new RightAlign());
     alignmentGroup.addSubComponent(new JustifyAlign());
     add(alignmentGroup);
+    ParagraphControl pControl = new ParagraphControl();
+    pControl.addParagraphStyle("Code", new StyledParagraphInserter("code"));
+    add(pControl);
 
+    UList ulist = new UList();
+    add(ulist);
+    OList olist = new OList();
+    add(olist);
     // add(new Pre());
     add(new Quote());
+    add(new Indent());
+    add(new Outdent());
+
+    addWidget(new Separator());
     add(new InsertLink());
     add(new RemoveLink());
 
@@ -70,8 +79,6 @@ public class DefaultToolBar extends ToolBar {
     imageGroup.addSubComponent(new ImageSize());
     add(imageGroup);
 
-    add(new Indent());
-    add(new Outdent());
     ToolGroup tableGroup = new ToolGroup(new MainTableButton());
     tableGroup.addSubComponent(new InsertTable());
     tableGroup.addSubComponent(new DropTable());
@@ -79,7 +86,15 @@ public class DefaultToolBar extends ToolBar {
     tableGroup.addSubComponent(new DropLine());
     tableGroup.addSubComponent(new AddColumn());
     tableGroup.addSubComponent(new DropColumn());
+    tableGroup.addSubComponent(new TableConfiguration());
     add(tableGroup);
 
+    // Réaction aux Enters
+    addEnterKeyPressedHandler((EnterKeyPressedHandler) ulist.getInserter());
+    addEnterKeyPressedHandler((EnterKeyPressedHandler) olist.getInserter());
+    addEnterKeyPressedHandler((EnterKeyPressedHandler) pControl.getInserter());
+
+    // Réaction aux raccourcis
+    addHotKeyPressedHandler((HotKeyPressedHandler) ulist.getInserter());
   }
 }

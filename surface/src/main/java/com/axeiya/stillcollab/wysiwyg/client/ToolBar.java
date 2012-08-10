@@ -57,15 +57,13 @@ public class ToolBar extends Composite implements HasHotKeyPressedHandlers, HotK
   public void add(AbstractControl w) {
     addSelectionChangeHandler(w);
     addSelectedSurfaceChangeHandler(w);
-    if (w.getInserter() instanceof HotKeyPressedHandler) {
-      addHotKeyPressedHandler((HotKeyPressedHandler) w.getInserter());
-    }
-    if (w.getInserter() instanceof EnterKeyPressedHandler) {
-      addEnterKeyPressedHandler((EnterKeyPressedHandler) w.getInserter());
-    }
     if (w instanceof IsWidget) {
       firstLine.add((IsWidget) w);
     }
+  }
+
+  public void addWidget(IsWidget w) {
+    firstLine.add(w);
   }
 
   public void add(final ToolGroup group) {

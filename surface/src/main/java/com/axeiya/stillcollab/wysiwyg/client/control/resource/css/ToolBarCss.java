@@ -7,4 +7,6 @@ public interface ToolBarCss extends CssResource {
   String firstLine();
 
   String secondLine();
+
+  String label();
 }
