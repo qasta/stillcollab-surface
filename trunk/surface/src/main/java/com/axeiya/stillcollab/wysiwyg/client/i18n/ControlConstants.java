@@ -91,10 +91,10 @@ public interface ControlConstants extends Constants {
   @DefaultStringValue("Images")
   String images();
 
-  @DefaultStringValue("Width : ")
+  @DefaultStringValue("width")
   String width();
 
-  @DefaultStringValue("Height : ")
+  @DefaultStringValue("height")
   String height();
 
   @DefaultStringValue("Align left")
@@ -111,5 +111,8 @@ public interface ControlConstants extends Constants {
 
   @DefaultStringValue("Align right")
   String rightAlign();
+
+  @DefaultStringValue("border size")
+  String borderSize();
 
 }

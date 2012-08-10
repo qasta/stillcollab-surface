@@ -115,7 +115,7 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
   @Deprecated
   @Override
   public void insert(SurfaceSelection selection) {
-    throw new IllegalArgumentException("Use insert(Selection,String) instead");
+    throw new IllegalArgumentException("Use insert(Selection,TableConfig) instead");
   }
 
   /**
@@ -161,7 +161,8 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
   @Override
   public void remove(SurfaceSelection selection) {
     Node ancestor =
-        DOMUtil.getFirstAncestorOfType(selection.getSelection().getRange().getStartContainer(), TABLE_TAG);
+        DOMUtil.getFirstAncestorOfType(selection.getSelection().getRange().getStartContainer(),
+            TABLE_TAG);
     if (ancestor != null) {
       ancestor.removeFromParent();
     }
@@ -197,10 +198,11 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
 
   @Override
   public void onEnterKeyPressed(EnterKeyPressedEvent event) {
-    if (!event.isHandled() && isInLastLine(event.getSelection().getSelection().getRange().getStartContainer())) {
+    if (!event.isHandled()
+        && isInLastLine(event.getSelection().getSelection().getRange().getStartContainer())) {
       Element table =
-          DOMUtil.getFirstAncestorOfType(event.getSelection().getSelection().getRange().getStartContainer(),
-              TABLE_TAG);
+          DOMUtil.getFirstAncestorOfType(event.getSelection().getSelection().getRange()
+              .getStartContainer(), TABLE_TAG);
       Element paragraph = PInserter.createEmptyParagraph();
       table.getParentElement().insertAfter(paragraph, table);
       Range range = Range.createRange();
@@ -209,6 +211,21 @@ public class TableInserter extends Inserter implements EnterKeyPressedHandler {
       event.getSelection().getAssociatedSurface().setSelection(range);
       event.setHandled(true);
       event.setPreventDefault(true);
+    }
+  }
+
+  public TableConfig getCurrentConfig(SurfaceSelection selection) {
+    Node ancestor =
+        DOMUtil.getFirstAncestorOfType(selection.getSelection().getRange().getStartContainer(),
+            TABLE_TAG);
+    if (ancestor != null) {
+      TableElement table = (TableElement) ancestor;
+
+      TableConfig config = new TableConfig();
+      config.setBorderSize(Integer.parseInt(table.getAttribute("border")));
+      return config;
+    } else {
+      return null;
     }
   }
 

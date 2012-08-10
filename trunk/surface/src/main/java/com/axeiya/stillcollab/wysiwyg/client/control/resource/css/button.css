@@ -93,3 +93,8 @@
 	position: relative;
 	top: -9px;	
 }
+
+.separator {
+	margin-left: 3px;
+	margin-right: 3px;
+}
